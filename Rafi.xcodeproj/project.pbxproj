@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		F3DF4A472EDC90A400946D00 /* Rafi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rafi.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3DF4A472EDC90A400946D00 /* Rafi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Rafi.app; path = "/Users/naimakhan/Documents/Xcode/Rafi/build/Debug-iphoneos/Rafi.app"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -33,16 +33,7 @@
 			isa = PBXGroup;
 			children = (
 				F3DF4A492EDC90A400946D00 /* Rafi */,
-				F3DF4A482EDC90A400946D00 /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		F3DF4A482EDC90A400946D00 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				F3DF4A472EDC90A400946D00 /* Rafi.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -95,7 +86,7 @@
 			mainGroup = F3DF4A3E2EDC90A400946D00;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = F3DF4A482EDC90A400946D00 /* Products */;
+			productRefGroup = F3DF4A3E2EDC90A400946D00;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
