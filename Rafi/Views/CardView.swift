@@ -9,8 +9,13 @@ import SwiftUI
 
 struct CardView: View {
     
-    @StateObject var viewModel = CardViewViewModel()
+    @StateObject var viewModel: CardViewViewModel      // ← Injected ViewModel
     @GestureState private var dragOffset: CGFloat = 0
+    
+    // Allow custom or default ViewModel
+    init(viewModel: CardViewViewModel = CardViewViewModel()) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
     
     var body: some View {
         NavigationStack {
@@ -29,8 +34,10 @@ struct CardView: View {
                             let isTop = index == viewModel.currentIndex
                             
                             ChallengeCardView(card: card)
-                                .offset(x: isTop ? dragOffset : 0,
-                                        y: isTop ? 0 : CGFloat(index - viewModel.currentIndex) * 12)
+                                .offset(
+                                    x: isTop ? dragOffset : 0,
+                                    y: isTop ? 0 : CGFloat(index - viewModel.currentIndex) * 12
+                                )
                                 .scaleEffect(isTop ? 1.0 : 0.96)
                                 .rotationEffect(.degrees(isTop ? Double(dragOffset * 0.06) : 0))
                                 .zIndex(Double(viewModel.cards.count - index))
@@ -67,18 +74,15 @@ struct CardView: View {
         .navigationViewStyle(.stack)
     }
     
-    // ⭐ NEW FIXED HEADER
+    // MARK: - HEADER
     private var header: some View {
         ZStack {
-            // Background
             Color(red: 195/255, green: 220/255, blue: 222/255)
                 .clipShape(RoundedRectangle(cornerRadius: 40, style: .continuous))
                 .ignoresSafeArea(edges: .top)
             
-            // White Header Card
             HStack(spacing: 18) {
                 
-                // Back button (should stay LEFT!)
                 Button(action: {}) {
                     Image(systemName: "chevron.backward")
                         .font(.system(size: 20, weight: .bold))
@@ -90,7 +94,6 @@ struct CardView: View {
                 
                 Spacer()
                 
-                // Title + sofa icon (manual order — sofa on the RIGHT)
                 HStack(spacing: 10) {
                     Text("في المنزل")
                         .font(.system(size: 20, weight: .medium))
@@ -113,12 +116,13 @@ struct CardView: View {
             .clipShape(RoundedRectangle(cornerRadius: 28))
             .padding(.top, 40)
             .padding(.horizontal, 20)
-            .environment(\.layoutDirection, .leftToRight)   // 🔥 FIX: disable RTL flipping
+            .environment(\.layoutDirection, .leftToRight)  // FIX RTL flipping
         }
         .frame(height: 170)
     }
     
-    /// CLEAN, UPGRADED CARD UI
+    
+    // MARK: - CARD UI
     struct ChallengeCardView: View {
         let card: ChallengeCard
         
@@ -129,21 +133,17 @@ struct CardView: View {
                     .shadow(color: .black.opacity(0.12), radius: 8, x: 0, y: 6)
                 
                 VStack(spacing: 16) {
-                    
-                    // TITLE
                     Text(card.title)
                         .font(.system(size: 26, weight: .bold))
                         .padding(.top, 12)
                         .multilineTextAlignment(.center)
                     
-                    // DESCRIPTION
                     Text(card.description)
                         .font(.system(size: 16))
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 24)
                     
-                    // IMAGE
                     Image(card.difficultyImageName)
                         .resizable()
                         .scaledToFit()
@@ -154,7 +154,6 @@ struct CardView: View {
                     
                     Spacer()
                     
-                    // BUTTON
                     NavigationLink(value: card) {
                         Text("ابدأ")
                             .font(.system(size: 18, weight: .semibold))
@@ -171,14 +170,27 @@ struct CardView: View {
             .frame(width: 330, height: 420)
         }
     }
-    
-    
-    // MARK: - Preview
-    struct CardView_Previews: PreviewProvider {
-        static var previews: some View {
-            CardView()
-                .previewDevice("iPhone 14 Pro")
-                .environment(\.layoutDirection, .rightToLeft)
-        }
+}
+
+
+// MARK: - PREVIEW MOCK
+extension CardViewViewModel {
+    static var previewMock: CardViewViewModel {
+        let vm = CardViewViewModel()
+        vm.cards = [
+            ChallengeCard(title: "عنوان تجريبي 1", description: "وصف قصير", difficultyImageName: "skull_level1"),
+            ChallengeCard(title: "عنوان تجريبي 2", description: "وصف أطول قليلاً", difficultyImageName: "skull_level2")
+        ]
+        vm.currentIndex = 0
+        return vm
+    }
+}
+
+
+// MARK: - PREVIEW
+struct CardView_Previews: PreviewProvider {
+    static var previews: some View {
+        CardView(viewModel: .previewMock)
+            .environment(\.layoutDirection, .rightToLeft)
     }
 }
