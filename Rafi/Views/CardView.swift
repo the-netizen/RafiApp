@@ -19,9 +19,7 @@ struct CardView: View {
                     .ignoresSafeArea()
                 
                 VStack(spacing: 20) {
-                    
                     header
-                    
                     Spacer()
                     
                     // CARD STACK
@@ -69,8 +67,7 @@ struct CardView: View {
         .navigationViewStyle(.stack)
     }
     
-    // ============================================================
-    // ============================================================
+    // ⭐ NEW FIXED HEADER
     private var header: some View {
         ZStack {
             // Background
@@ -83,10 +80,10 @@ struct CardView: View {
                 
                 // Back button (should stay LEFT!)
                 Button(action: {}) {
-                    Image(systemName: "chevron.left")
-                        .font(.system(size: 24, weight: .medium))
-                        .foregroundColor(.gray)
-                        .frame(width: 46, height: 46)
+                    Image(systemName: "chevron.backward")
+                        .font(.system(size: 20, weight: .bold))
+                        .foregroundColor(.black)
+                        .padding(10)
                         .background(Color.white)
                         .clipShape(Circle())
                 }
@@ -96,12 +93,12 @@ struct CardView: View {
                 // Title + sofa icon (manual order — sofa on the RIGHT)
                 HStack(spacing: 10) {
                     Text("في المنزل")
-                        .font(.system(size: 25, weight: .medium))
+                        .font(.system(size: 20, weight: .medium))
                     
                     Image("sofa_icon")
                         .resizable()
                         .scaledToFit()
-                        .frame(height: 30)
+                        .frame(height: 28)
                 }
                 
                 Spacer(minLength: 0)
@@ -121,7 +118,6 @@ struct CardView: View {
         .frame(height: 170)
     }
     
-    
     /// CLEAN, UPGRADED CARD UI
     struct ChallengeCardView: View {
         let card: ChallengeCard
@@ -134,17 +130,20 @@ struct CardView: View {
                 
                 VStack(spacing: 16) {
                     
+                    // TITLE
                     Text(card.title)
                         .font(.system(size: 26, weight: .bold))
                         .padding(.top, 12)
                         .multilineTextAlignment(.center)
                     
+                    // DESCRIPTION
                     Text(card.description)
                         .font(.system(size: 16))
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 24)
                     
+                    // IMAGE
                     Image(card.difficultyImageName)
                         .resizable()
                         .scaledToFit()
@@ -155,6 +154,7 @@ struct CardView: View {
                     
                     Spacer()
                     
+                    // BUTTON
                     NavigationLink(value: card) {
                         Text("ابدأ")
                             .font(.system(size: 18, weight: .semibold))
