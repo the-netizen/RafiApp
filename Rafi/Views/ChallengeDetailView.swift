@@ -12,6 +12,7 @@ struct ChallengeDetailView: View {
     
     var body: some View {
         ZStack {
+            
             // Background Color
             Color(red: 195/255, green: 220/255, blue: 222/255)
                 .ignoresSafeArea()
@@ -62,8 +63,8 @@ struct ChallengeDetailView: View {
                     .environment(\.layoutDirection, .leftToRight)  // FIX RTL flipping
                 }
                 .frame(height: 170)
+                .zIndex(1)   // ⭐ FIX: Keeps header ABOVE white card
             }
-            
             
             
             // WHITE CARD
@@ -93,9 +94,8 @@ struct ChallengeDetailView: View {
             .cornerRadius(34)
             .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 5)
             .padding(.horizontal, 22)
+            .padding(.top, 120)  // ⭐ FIX: Prevents overlap with header
             
-            Spacer()
-            Spacer()
         }
         .environment(\.layoutDirection, .rightToLeft)
         .navigationBarHidden(true)
