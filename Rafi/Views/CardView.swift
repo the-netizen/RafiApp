@@ -8,31 +8,29 @@
 import SwiftUI
 
 struct CardView: View {
-    
-    @StateObject var viewModel: CardViewViewModel      // ← Injected ViewModel
+
+    @StateObject var viewModel: CardViewViewModel
     @GestureState private var dragOffset: CGFloat = 0
-    
-    // Allow custom or default ViewModel
+
     init(viewModel: CardViewViewModel = CardViewViewModel()) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
-    
+
     var body: some View {
         NavigationStack {
             ZStack {
                 Color(red: 195/255, green: 220/255, blue: 222/255)
                     .ignoresSafeArea()
-                
+
                 VStack(spacing: 20) {
                     header
                     Spacer()
-                    
-                    // CARD STACK
+
                     ZStack {
                         ForEach(viewModel.cards.indices, id: \.self) { index in
                             let card = viewModel.cards[index]
                             let isTop = index == viewModel.currentIndex
-                            
+
                             ChallengeCardView(card: card)
                                 .offset(
                                     x: isTop ? dragOffset : 0,
@@ -40,7 +38,8 @@ struct CardView: View {
                                 )
                                 .scaleEffect(isTop ? 1.0 : 0.96)
                                 .rotationEffect(.degrees(isTop ? Double(dragOffset * 0.06) : 0))
-                                .zIndex(Double(viewModel.cards.count - index))
+                                .zIndex(isTop ? Double(viewModel.cards.count + 100 - index) : Double(viewModel.cards.count - index))
+                                .allowsHitTesting(isTop)
                                 .animation(.spring(response: 0.34, dampingFraction: 0.75),
                                            value: viewModel.currentIndex)
                                 .gesture(
@@ -62,7 +61,7 @@ struct CardView: View {
                     }
                     .frame(height: 480)
                     .padding(.bottom, 36)
-                    
+
                     Spacer()
                 }
                 .padding(.horizontal)
@@ -71,18 +70,17 @@ struct CardView: View {
                 ChallengeDetailView(card: card)
             }
         }
-        .navigationViewStyle(.stack)
     }
-    
+
     // MARK: - HEADER
     private var header: some View {
         ZStack {
             Color(red: 195/255, green: 220/255, blue: 222/255)
                 .clipShape(RoundedRectangle(cornerRadius: 40, style: .continuous))
                 .ignoresSafeArea(edges: .top)
-            
+
             HStack(spacing: 18) {
-                
+
                 Button(action: {}) {
                     Image(systemName: "chevron.backward")
                         .font(.system(size: 20, weight: .bold))
@@ -91,19 +89,19 @@ struct CardView: View {
                         .background(Color.white)
                         .clipShape(Circle())
                 }
-                
+
                 Spacer()
-                
+
                 HStack(spacing: 10) {
                     Text("في المنزل")
                         .font(.system(size: 20, weight: .medium))
-                    
+
                     Image("sofa_icon")
                         .resizable()
                         .scaledToFit()
                         .frame(height: 28)
                 }
-                
+
                 Spacer(minLength: 0)
             }
             .padding(.horizontal, 20)
@@ -116,34 +114,33 @@ struct CardView: View {
             .clipShape(RoundedRectangle(cornerRadius: 28))
             .padding(.top, 40)
             .padding(.horizontal, 20)
-            .environment(\.layoutDirection, .leftToRight)  // FIX RTL flipping
+            .environment(\.layoutDirection, .leftToRight)
         }
         .frame(height: 170)
     }
-    
-    
+
     // MARK: - CARD UI
     struct ChallengeCardView: View {
         let card: ChallengeCard
-        
+
         var body: some View {
             ZStack {
                 RoundedRectangle(cornerRadius: 24)
                     .fill(Color.white)
                     .shadow(color: .black.opacity(0.12), radius: 8, x: 0, y: 6)
-                
+
                 VStack(spacing: 16) {
                     Text(card.title)
                         .font(.system(size: 26, weight: .bold))
                         .padding(.top, 12)
                         .multilineTextAlignment(.center)
-                    
+
                     Text(card.description)
                         .font(.system(size: 16))
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 24)
-                    
+
                     Image(card.difficultyImageName)
                         .resizable()
                         .scaledToFit()
@@ -151,9 +148,9 @@ struct CardView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                         .padding(.top, 6)
                         .opacity(0.95)
-                    
+
                     Spacer()
-                    
+
                     NavigationLink(value: card) {
                         Text("ابدأ")
                             .font(.system(size: 18, weight: .semibold))
@@ -168,10 +165,10 @@ struct CardView: View {
                 .frame(width: 310, height: 400)
             }
             .frame(width: 330, height: 420)
+            .contentShape(Rectangle())   // ← FIX: makes button fully tappable
         }
     }
 }
-
 
 // MARK: - PREVIEW MOCK
 extension CardViewViewModel {
@@ -185,7 +182,6 @@ extension CardViewViewModel {
         return vm
     }
 }
-
 
 // MARK: - PREVIEW
 struct CardView_Previews: PreviewProvider {
