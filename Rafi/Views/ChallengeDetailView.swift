@@ -9,15 +9,15 @@ import SwiftUI
 
 struct ChallengeDetailView: View {
     let card: ChallengeCard
-
+    
     var body: some View {
         ZStack {
             // Background Color
-            Color(red: 195/255, green: 220/255, blue: 222/255)
-                .ignoresSafeArea()
-
+                        Color("bgColor")
+                            .ignoresSafeArea()
+            
             VStack(spacing: 24) {
-
+                
                 // HEADER
                 HStack {
                     Button {
@@ -30,39 +30,39 @@ struct ChallengeDetailView: View {
                             .background(Color.white)
                             .clipShape(Circle())
                     }
-
+                    
                     Spacer()
-
+                    
                     Text("في المنزل")
                         .font(.system(size: 22, weight: .medium))
                         .padding(.horizontal, 18)
                         .padding(.vertical, 8)
                         .background(Color.white)
                         .cornerRadius(22)
-
+                    
                     Image("sofa_icon")
                         .resizable()
                         .frame(width: 32, height: 32)
                 }
                 .padding(.horizontal)
                 .padding(.top, 16)
-
+                
                 Spacer()
-
+                
                 // WHITE CARD
                 VStack(spacing: 20) {
-
+                    
                     // TITLE
                     Text(card.title)
                         .font(.system(size: 32, weight: .bold))
                         .multilineTextAlignment(.center)
-
+                    
                     // DESCRIPTION (multi-line)
                     Text(card.description)
                         .font(.system(size: 20))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 12)
-
+                    
                     // IMAGE
                     Image(card.difficultyImageName)
                         .resizable()
@@ -76,7 +76,7 @@ struct ChallengeDetailView: View {
                 .cornerRadius(34)
                 .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 5)
                 .padding(.horizontal, 22)
-
+                
                 Spacer()
                 Spacer()
             }
@@ -85,6 +85,7 @@ struct ChallengeDetailView: View {
         .navigationBarHidden(true)
     }
 }
+
 
 
 // MARK: PREVIEW

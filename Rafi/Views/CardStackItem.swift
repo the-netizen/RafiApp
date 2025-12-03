@@ -49,7 +49,7 @@ struct CardStackItem: View {
                         .foregroundColor(.white)
                         .padding(.horizontal, 60)
                         .padding(.vertical, 12)
-                        .background(Color.orange)
+                        .background(.button)
                         .clipShape(RoundedRectangle(cornerRadius: 14))
                 }
                 .padding(.bottom, 22)

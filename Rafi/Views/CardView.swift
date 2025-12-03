@@ -20,7 +20,7 @@ struct CardView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(red: 195/255, green: 220/255, blue: 222/255)
+                Color("bgColor")
                     .ignoresSafeArea()
                 
                 VStack(spacing: 20) {
@@ -77,7 +77,7 @@ struct CardView: View {
     // MARK: - HEADER
     private var header: some View {
         ZStack {
-            Color(red: 195/255, green: 220/255, blue: 222/255)
+            Color("bgColor")
                 .clipShape(RoundedRectangle(cornerRadius: 40, style: .continuous))
                 .ignoresSafeArea(edges: .top)
             
@@ -160,7 +160,7 @@ struct CardView: View {
                             .foregroundColor(.white)
                             .padding(.horizontal, 56)
                             .padding(.vertical, 12)
-                            .background(Color.orange)
+                            .background(.button)
                             .cornerRadius(12)
                     }
                     .padding(.bottom, 20)
