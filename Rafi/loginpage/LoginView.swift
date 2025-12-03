@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LoginView: View {
+struct SignInView: View {
     @StateObject private var vm = LoginViewModel()
     
     // hard-coded mint color (no asset)
