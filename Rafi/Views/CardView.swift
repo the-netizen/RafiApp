@@ -75,9 +75,9 @@ struct CardView: View {
     // MARK: - HEADER
     private var header: some View {
         ZStack {
-            Color("bgColor")
-                .clipShape(RoundedRectangle(cornerRadius: 40, style: .continuous))
-                .ignoresSafeArea(edges: .top)
+//            Color(Color.red)
+//                .clipShape(RoundedRectangle(cornerRadius: 40, style: .continuous))
+//                .ignoresSafeArea(edges: .top)
 
             HStack(spacing: 18) {
 
@@ -100,6 +100,7 @@ struct CardView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(height: 28)
+                        .padding(.trailing,-10)
                 }
 
                 Spacer(minLength: 5)
