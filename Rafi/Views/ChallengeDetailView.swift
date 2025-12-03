@@ -12,6 +12,7 @@ struct ChallengeDetailView: View {
     
     var body: some View {
         ZStack {
+            
             // Background Color
                         Color("bgColor")
                             .ignoresSafeArea()
@@ -84,22 +85,22 @@ struct ChallengeDetailView: View {
         .environment(\.layoutDirection, .rightToLeft)
         .navigationBarHidden(true)
     }
-}
-
-
-
-// MARK: PREVIEW
-struct ChallengeDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            ChallengeDetailView(
-                card: ChallengeCard(
-                    title: "عنوان",
-                    description: "نبذة عن التحدي\nنبذة عن التحدي\nنبذة عن التحدي\nنبذة عن التحدي",
-                    difficultyImageName: "skull_level1"
+    
+    
+    
+    // MARK: PREVIEW
+    struct ChallengeDetailView_Previews: PreviewProvider {
+        static var previews: some View {
+            NavigationStack {
+                ChallengeDetailView(
+                    card: ChallengeCard(
+                        title: "عنوان",
+                        description: "نبذة عن التحدي\nنبذة عن التحدي\nنبذة عن التحدي\nنبذة عن التحدي",
+                        difficultyImageName: "skull_level1"
+                    )
                 )
-            )
+            }
+            .environment(\.layoutDirection, .rightToLeft)
         }
-        .environment(\.layoutDirection, .rightToLeft)
     }
 }
