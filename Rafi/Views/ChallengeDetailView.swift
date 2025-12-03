@@ -14,41 +14,13 @@ struct ChallengeDetailView: View {
         ZStack {
             
             // Background Color
-                        Color("bgColor")
-                            .ignoresSafeArea()
+            Color("bgColor")
+                .ignoresSafeArea()
             
             VStack(spacing: 24) {
                 
-                // HEADER
-                HStack {
-                    Button {
-                        // Auto back handled by NavigationStack
-                    } label: {
-                        Image(systemName: "chevron.backward")
-                            .font(.system(size: 20, weight: .bold))
-                            .foregroundColor(.black)
-                            .padding(10)
-                            .background(Color.white)
-                            .clipShape(Circle())
-                    }
-                    
-                    Spacer()
-                    
-                    Text("في المنزل")
-                        .font(.system(size: 22, weight: .medium))
-                        .padding(.horizontal, 18)
-                        .padding(.vertical, 8)
-                        .background(Color.white)
-                        .cornerRadius(22)
-                    
-                    Image("sofa_icon")
-                        .resizable()
-                        .frame(width: 32, height: 32)
-                }
-                .padding(.horizontal)
-                .padding(.top, 16)
-                
-                Spacer()
+                // NEW HEADER
+                header
                 
                 // WHITE CARD
                 VStack(spacing: 20) {
@@ -58,7 +30,7 @@ struct ChallengeDetailView: View {
                         .font(.system(size: 32, weight: .bold))
                         .multilineTextAlignment(.center)
                     
-                    // DESCRIPTION (multi-line)
+                    // DESCRIPTION
                     Text(card.description)
                         .font(.system(size: 20))
                         .multilineTextAlignment(.center)
@@ -87,20 +59,68 @@ struct ChallengeDetailView: View {
     }
     
     
-    
-    // MARK: PREVIEW
-    struct ChallengeDetailView_Previews: PreviewProvider {
-        static var previews: some View {
-            NavigationStack {
-                ChallengeDetailView(
-                    card: ChallengeCard(
-                        title: "عنوان",
-                        description: "نبذة عن التحدي\nنبذة عن التحدي\nنبذة عن التحدي\nنبذة عن التحدي",
-                        difficultyImageName: "skull_level1"
-                    )
-                )
+    // MARK: - HEADER
+    private var header: some View {
+        ZStack {
+            HStack(spacing: 18) {
+                
+                Button(action: {}) {
+                    Image(systemName: "chevron.backward")
+                        .font(.system(size: 20, weight: .bold))
+                        .foregroundColor(.black)
+                        .padding(10)
+                        .background(Color.white)
+                        .clipShape(Circle())
+                }
+                
+                Spacer()
+                
+                HStack(spacing: 20) {
+                    Text("خارج المنزل")
+                        .font(.system(size: 25, weight: .medium))
+                    
+                    Image("tree_icon")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 40)
+                        .padding(.trailing, -50)
+                }
+                
+                Spacer(minLength: 5)
             }
-            .environment(\.layoutDirection, .rightToLeft)
+            .padding(.horizontal, 20)
+            .frame(height: 95)
+            .background(Color.white)
+            .overlay(
+                RoundedRectangle(cornerRadius: 28)
+                    .stroke(Color.white, lineWidth: 4)
+            )
+            .clipShape(RoundedRectangle(cornerRadius: 28))
+            .padding(.top, 40)
+            .padding(.horizontal, 20)
+            .environment(\.layoutDirection, .leftToRight)
         }
+        .frame(height: 170)
+    }
+}
+
+
+// MARK: PREVIEW 1
+struct ChallengeDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationStack {
+            ChallengeDetailView(
+                card: ChallengeCard(
+                    title: "عدّل طلبي",
+                    description: """
+- الشروط
+-لازم تغيّر جزء من الطلب بشكل واضح (النوع، الإضافات، الحجم).
+-مرتبط بالموضوع الحالي.
+""",
+                    difficultyImageName: "skull_level1"
+                )
+            )
+        }
+        .environment(\.layoutDirection, .rightToLeft)
     }
 }
