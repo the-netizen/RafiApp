@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct RegisterView: View {
-    @State var email: String
-    @State var username: String
-    @State var password: String
+    @State var email: String = ""
+    @State var username: String = ""
+    @State var password: String = ""
     
     var body: some View {
         VStack{

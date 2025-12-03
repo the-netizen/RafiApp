@@ -15,7 +15,7 @@ struct MainView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color("MainBackground")
+                Color("bgColor")
                     .ignoresSafeArea()
 
                 VStack(alignment: .center, spacing: 24) {
@@ -75,3 +75,10 @@ struct MainView: View {
             }
         }
  
+#Preview {
+    let mockSession = UserSession()
+
+    return MainView()
+        // 2. Inject it so the view can read 'session.avatarName'
+        .environmentObject(mockSession)
+}
