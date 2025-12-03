@@ -92,7 +92,7 @@ struct CardView: View {
 
                 Spacer()
 
-                HStack(spacing: 10) {
+                HStack(spacing: 20) {
                     Text("في المنزل")
                         .font(.system(size: 20, weight: .medium))
 
@@ -102,7 +102,7 @@ struct CardView: View {
                         .frame(height: 28)
                 }
 
-                Spacer(minLength: 0)
+                Spacer(minLength: 5)
             }
             .padding(.horizontal, 20)
             .frame(height: 95)
