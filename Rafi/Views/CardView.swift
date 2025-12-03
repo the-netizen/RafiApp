@@ -75,9 +75,9 @@ struct CardView: View {
     // MARK: - HEADER
     private var header: some View {
         ZStack {
-            Color("bgColor")
-                .clipShape(RoundedRectangle(cornerRadius: 40, style: .continuous))
-                .ignoresSafeArea(edges: .top)
+//            Color(Color.red)
+//                .clipShape(RoundedRectangle(cornerRadius: 40, style: .continuous))
+//                .ignoresSafeArea(edges: .top)
 
             HStack(spacing: 18) {
 
@@ -93,13 +93,14 @@ struct CardView: View {
                 Spacer()
 
                 HStack(spacing: 20) {
-                    Text("في المنزل")
-                        .font(.system(size: 20, weight: .medium))
+                    Text("خارج المنزل")
+                        .font(.system(size: 25, weight: .medium))
 
-                    Image("sofa_icon")
+                    Image("tree_icon")
                         .resizable()
                         .scaledToFit()
-                        .frame(height: 28)
+                        .frame(height: 40)
+                        .padding(.trailing,-50)
                 }
 
                 Spacer(minLength: 5)
@@ -175,7 +176,7 @@ extension CardViewViewModel {
     static var previewMock: CardViewViewModel {
         let vm = CardViewViewModel()
         vm.cards = [
-            ChallengeCard(title: "عنوان تجريبي 1", description: "وصف قصير", difficultyImageName: "skull_level1"),
+            ChallengeCard(title: "عدّل طلبي  ", description: "اذهب إلى مطعم أو مقهى، واطلب شيئًا، ثم بعد ثوانٍ قم بتغيير الطلب. ", difficultyImageName: "skull_level1"),
             ChallengeCard(title: "عنوان تجريبي 2", description: "وصف أطول قليلاً", difficultyImageName: "skull_level2")
         ]
         vm.currentIndex = 0
