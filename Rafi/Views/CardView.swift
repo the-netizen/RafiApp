@@ -93,14 +93,14 @@ struct CardView: View {
                 Spacer()
 
                 HStack(spacing: 20) {
-                    Text("في المنزل")
-                        .font(.system(size: 20, weight: .medium))
+                    Text("خارج المنزل")
+                        .font(.system(size: 25, weight: .medium))
 
-                    Image("sofa_icon")
+                    Image("tree_icon")
                         .resizable()
                         .scaledToFit()
-                        .frame(height: 28)
-                        .padding(.trailing,-10)
+                        .frame(height: 40)
+                        .padding(.trailing,-50)
                 }
 
                 Spacer(minLength: 5)
