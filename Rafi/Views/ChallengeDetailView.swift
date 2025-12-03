@@ -76,14 +76,14 @@ struct ChallengeDetailView: View {
                 Spacer()
                 
                 HStack(spacing: 20) {
-                    Text("في المنزل")
-                        .font(.system(size: 20, weight: .medium))
+                    Text("خارج المنزل")
+                        .font(.system(size: 25, weight: .medium))
                     
-                    Image("sofa_icon")
+                    Image("tree_icon")
                         .resizable()
                         .scaledToFit()
-                        .frame(height: 28)
-                        .padding(.trailing, -10)
+                        .frame(height: 40)
+                        .padding(.trailing, -50)
                 }
                 
                 Spacer(minLength: 5)
@@ -102,33 +102,21 @@ struct ChallengeDetailView: View {
         }
         .frame(height: 170)
     }
-    
-    
-    // MARK: PREVIEW
-    struct ChallengeDetailView_Previews: PreviewProvider {
-        static var previews: some View {
-            NavigationStack {
-                ChallengeDetailView(
-                    card: ChallengeCard(
-                        title: "عنوان",
-                        description: "نبذة عن التحدي\nنبذة عن التحدي\nنبذة عن التحدي\nنبذة عن التحدي",
-                        difficultyImageName: "skull_level1"
-                    )
-                )
-            }
-            .environment(\.layoutDirection, .rightToLeft)
-        }
-    }
 }
 
-// MARK: PREVIEW
+
+// MARK: PREVIEW 1
 struct ChallengeDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             ChallengeDetailView(
                 card: ChallengeCard(
-                    title: "عنوان",
-                    description: "نبذة عن التحدي\nنبذة عن التحدي\nنبذة عن التحدي\nنبذة عن التحدي",
+                    title: "عدّل طلبي",
+                    description: """
+- الشروط
+-لازم تغيّر جزء من الطلب بشكل واضح (النوع، الإضافات، الحجم).
+-مرتبط بالموضوع الحالي.
+""",
                     difficultyImageName: "skull_level1"
                 )
             )
@@ -136,4 +124,3 @@ struct ChallengeDetailView_Previews: PreviewProvider {
         .environment(\.layoutDirection, .rightToLeft)
     }
 }
-

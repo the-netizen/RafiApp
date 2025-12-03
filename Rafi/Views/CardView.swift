@@ -176,7 +176,7 @@ extension CardViewViewModel {
     static var previewMock: CardViewViewModel {
         let vm = CardViewViewModel()
         vm.cards = [
-            ChallengeCard(title: "عنوان تجريبي 1", description: "وصف قصير", difficultyImageName: "skull_level1"),
+            ChallengeCard(title: "عدّل طلبي  ", description: "اذهب إلى مطعم أو مقهى، واطلب شيئًا، ثم بعد ثوانٍ قم بتغيير الطلب. ", difficultyImageName: "skull_level1"),
             ChallengeCard(title: "عنوان تجريبي 2", description: "وصف أطول قليلاً", difficultyImageName: "skull_level2")
         ]
         vm.currentIndex = 0
