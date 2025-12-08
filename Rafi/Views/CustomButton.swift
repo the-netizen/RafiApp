@@ -1,9 +1,3 @@
-//
-//  CustomButton.swift
-//  Rafi
-//
-//  Created by Naima Khan on 01/12/2025.
-//
 
 import SwiftUI
 
@@ -25,8 +19,21 @@ struct CustomButton: View {
                     .foregroundColor(.primary)
             }
         }
+//        .buttonStyle(.glass)
+        .buttonStyle(PressableButtonStyle())
 
     }
+}
+
+struct PressableButtonStyle: ButtonStyle {
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration
+            .label
+            .scaleEffect(configuration.isPressed ? 0.96 : 1.0)
+            .opacity(configuration.isPressed ? 0.85 : 1.0)
+    }
+    
 }
 
 #Preview {

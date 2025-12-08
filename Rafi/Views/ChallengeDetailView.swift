@@ -1,14 +1,8 @@
-//
-//  ChallengeDetailView.swift
-//  Rafi
-//
-//  Created by Huda Chishtee on 01/12/2025.
-//
-
 import SwiftUI
 
 struct ChallengeDetailView: View {
     let card: ChallengeCard
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ZStack {
@@ -67,9 +61,9 @@ struct ChallengeDetailView: View {
                 Button(action: {}) {
                     Image(systemName: "chevron.backward")
                         .font(.system(size: 20, weight: .bold))
-                        .foregroundColor(.black)
+                        .foregroundColor(.white)
                         .padding(10)
-                        .background(Color.white)
+                        .background(.backButton)
                         .clipShape(Circle())
                 }
                 
@@ -77,7 +71,8 @@ struct ChallengeDetailView: View {
                 
                 HStack(spacing: 20) {
                     Text("خارج المنزل")
-                        .font(.system(size: 25, weight: .medium))
+                        .font(.system(size: 25, weight: .bold))
+                        .foregroundColor(.black)
                     
                     Image("tree_icon")
                         .resizable()
@@ -101,7 +96,7 @@ struct ChallengeDetailView: View {
             .environment(\.layoutDirection, .leftToRight)
         }
         .frame(height: 170)
-    }
+    } //header
 }
 
 

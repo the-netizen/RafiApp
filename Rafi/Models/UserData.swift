@@ -1,9 +1,4 @@
-//
-//  Model.swift
-//  Rafi
-//
-//  Created by Noor Alhassani on 12/06/1447 AH.
-//
+//moved noors login model  here
 
 import Foundation
 

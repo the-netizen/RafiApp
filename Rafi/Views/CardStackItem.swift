@@ -1,10 +1,3 @@
-//
-//  CardStackItem.swift
-//  Rafi
-//
-//  Created by Huda Chishtee on 01/12/2025.
-//
-
 import SwiftUI
 
 struct CardStackItem: View {

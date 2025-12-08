@@ -1,9 +1,3 @@
-//
-//  RafiApp.swift
-//  Rafi
-//
-//  Created by Naima Khan on 30/11/2025.
-//
 
 import SwiftUI
 
@@ -13,8 +7,10 @@ struct RafiApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainView()
-                .environmentObject(session)
+            NavigationStack{
+                MainView()
+                    .environmentObject(session)
+            }
         }
     }
 }

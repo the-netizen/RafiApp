@@ -1,16 +1,8 @@
-//
-//  CategoryCardView.swift
-//  Rafi
-//
-//  Created by Lyan on 10/06/1447 AH.
-//
-
 import SwiftUI
 
 struct CategoryCardView: View {
     let category: MainCategory
 
-    @State private var isPressed = false
     @State private var animate = false
 
     var body: some View {
@@ -27,7 +19,7 @@ struct CategoryCardView: View {
                     .scaledToFit()
                     .frame(width: 60, height: 60)   // ايقونة أصغر شوي
                     .scaleEffect(animate ? 1.06 : 1.0)
-                    .animation(.easeInOut(duration: 1.2).repeatForever(), value: animate)
+//                    .animation(.easeInOut(duration: 1.2).repeatForever(), value: animate)
             }
             .padding(.horizontal, 22)
 
@@ -37,18 +29,13 @@ struct CategoryCardView: View {
                 .frame(maxWidth: .infinity, alignment: .center)
         }
         .frame(width:330)
-        .frame(height: 130)   // ← هنا تصغير المستطيل
-        .scaleEffect(isPressed ? 0.96 : 1.0)
-        .onTapGesture {
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
-                isPressed = true
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                isPressed = false
-            }
-        }
+        .frame(height: 130)
         .onAppear {
             animate = true
         }
     }
+}
+
+#Preview {
+    CategoryCardView(category: .outside)
 }
