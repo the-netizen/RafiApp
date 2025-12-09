@@ -58,6 +58,7 @@ struct CardStackItem_Previews: PreviewProvider {
             card: ChallengeCard(
                 title: "عنوان",
                 description: "نبذة عن التحدي",
+                conditions: "These are the conditions",
                 difficultyImageName: "skull_level1"
             )
         )

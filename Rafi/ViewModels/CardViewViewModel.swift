@@ -12,6 +12,7 @@ struct ChallengeCard: Identifiable, Hashable {
     let id = UUID()
     let title: String
     let description: String
+    let conditions: String
     let difficultyImageName: String
     
     // Hashable conformance for NavigationLink (no idea what it does but dont touch this)
@@ -33,14 +34,6 @@ final class CardViewViewModel: ObservableObject {
         self.category = category
         loadCardsForCategory()
     }
-
-    
-//    @Published var cards: [ChallengeCard] = [
-//        .init(title: "عنوان", description: "نبذة عن التحدي", difficultyImageName: "skull_level1"),
-//        .init(title: "عنوان ٢", description: "نبذة عن التحدي", difficultyImageName: "skull_level2"),
-//        .init(title: "عنوان ٣", description: "نبذة عن التحدي", difficultyImageName: "skull_level3")
-//    ]
-
 
     var canGoNext: Bool { currentIndex < cards.count - 1 }
     var canGoPrev: Bool { currentIndex > 0 }

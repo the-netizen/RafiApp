@@ -9,7 +9,7 @@ struct CardView: View {
     
     init(viewModel: CardViewViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
-        print("CardView initialized with category: \(viewModel.category.rawValue)")
+//        print("CardView initialized with category: \(viewModel.category.rawValue)")
     }
     
     var body: some View {
@@ -17,7 +17,6 @@ struct CardView: View {
             Color("bgColor")
                 .ignoresSafeArea()
             
-//            if let card = viewModel.currentCard {
                 VStack(spacing: 20) {
                     header
                     Spacer()
@@ -29,11 +28,10 @@ struct CardView: View {
                     Spacer()
                 } //VStack
                 .padding(.horizontal)
-//            }
         } //Zstack
         .navigationBarHidden(true) // cz we using custom header for navigation
         .navigationDestination(for: ChallengeCard.self) { card in
-            ChallengeDetailView(card: card)
+            ChallengeDetailView(card: card, category: viewModel.category)
         }
     } //body
     
@@ -74,48 +72,13 @@ struct CardView: View {
     }
     
     var header: some View {
-        ZStack {
-            HStack(spacing: 18) {
-                
-                Button(action: {
-                    dismiss()
-                }) {
-                    Image(systemName: "chevron.backward")
-                        .font(.system(size: 20, weight: .bold))
-                        .foregroundColor(.black)
-                        .padding(10)
-                        .background(Color.white)
-                        .clipShape(Circle())
-                }
-                
-                Spacer()
-                
-                HStack(spacing: 20) {
-                    Text(viewModel.category.rawValue)
-                        .font(.system(size: 25, weight: .medium))
-                        .foregroundColor(.black)
-                    
-                    Image(viewModel.category.iconName)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 40)
-                        .padding(.trailing,-50)
-                }
-                
-                Spacer(minLength: 5)
+        CustomHeaderView(
+            title: viewModel.category.rawValue,
+            iconName: viewModel.category.iconName,
+            onBack: {
+                dismiss()
             }
-            .padding(.horizontal, 20)
-            .frame(height: 95)
-            .background(Color.white)
-            .overlay(
-                RoundedRectangle(cornerRadius: 28)
-                    .stroke(Color.white, lineWidth: 4)
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 28))
-            .padding(.top, 40)
-            .padding(.horizontal, 20)
-            .environment(\.layoutDirection, .leftToRight)
-        }
+        )
         .frame(height: 170)
     }
 }
@@ -131,25 +94,26 @@ struct ChallengeCardView: View {
                 .fill(Color.white)
                 .shadow(color: .black.opacity(0.12), radius: 8, x: 0, y: 6)
             
+            Image(card.difficultyImageName)
+                .resizable()
+                .scaledToFit()
+                .frame(height: 170)
+                .opacity(0.70)
+            
             VStack(spacing: 16) {
                 Text(card.title)
                     .font(.system(size: 26, weight: .bold))
-                    .padding(.top, 12)
+                    .foregroundColor(.black)
+                    .padding(.top, 40)
                     .multilineTextAlignment(.center)
+                Spacer()
                 
                 Text(card.description)
-                    .font(.system(size: 16))
-                    .foregroundColor(.gray)
+                    .font(.system(size: 20, weight: .medium))
+                    .foregroundColor(.black.opacity(0.7))
                     .multilineTextAlignment(.center)
-                    .padding(.horizontal, 24)
-                
-                Image(card.difficultyImageName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 170)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .padding(.top, 6)
-                    .opacity(0.95)
+                    .padding(.horizontal, 30)
+//                    .lineLimit(3)
                 
                 Spacer()
                 
@@ -163,7 +127,7 @@ struct ChallengeCardView: View {
                         .background(.button)
                         .cornerRadius(12)
                 }
-                .padding(.bottom, 20)
+                .padding(.bottom, 40)
             }
             .frame(width: 310, height: 400)
         }
@@ -177,8 +141,14 @@ extension CardViewViewModel {
     static var previewMock: CardViewViewModel {
         let vm = CardViewViewModel(category: .outside)
         vm.cards = [
-            ChallengeCard(title: "عدّل طلبي", description: "اذهب إلى مطعم…", difficultyImageName: "skull_level1"),
-            ChallengeCard(title: "عنوان تجريبي", description: "وصف أطول قليلاً", difficultyImageName: "skull_level2")
+            ChallengeCard(title: "عدّل طلبي", 
+                         description: "اذهب إلى مطعم…", 
+                         conditions: "يجب تغيير جزء من الطلب بشكل واضح",
+                         difficultyImageName: "skull_level1"),
+            ChallengeCard(title: "عنوان تجريبي", 
+                         description: "وصف أطول قليلاً", 
+                         conditions: "شروط التحدي هنا",
+                         difficultyImageName: "skull_level2")
         ]
         vm.currentIndex = 0
         return vm
@@ -191,7 +161,7 @@ struct CardView_Previews: PreviewProvider {
         NavigationStack {
             CardView(viewModel: .previewMock)
         }
-        .environment(\.layoutDirection, .rightToLeft)
+//        .environment(\.layoutDirection, .rightToLeft)
     }
 }
 

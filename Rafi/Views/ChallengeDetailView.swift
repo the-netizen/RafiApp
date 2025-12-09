@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ChallengeDetailView: View {
     let card: ChallengeCard
+    let category: MainCategory
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -15,27 +16,35 @@ struct ChallengeDetailView: View {
                 
                 // NEW HEADER
                 header
+                Spacer()
                 
-                // WHITE CARD
-                VStack(spacing: 20) {
-                    
-                    // TITLE
-                    Text(card.title)
-                        .font(.system(size: 32, weight: .bold))
-                        .multilineTextAlignment(.center)
-                    
-                    // DESCRIPTION
-                    Text(card.description)
-                        .font(.system(size: 20))
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 12)
+                ZStack{
                     
                     // IMAGE
                     Image(card.difficultyImageName)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 180)
-                        .padding(.top, 10)
+                        .frame(height: 170)
+                        .opacity(0.70)
+                    
+                    // Text
+                    VStack(spacing: 20) {
+                        
+                        Text(card.title)
+                            .font(.system(size: 20, weight: .bold))
+                            .foregroundColor(.black)
+                            .padding(.top, 40)
+                            .multilineTextAlignment(.center)
+                            .padding(.bottom, 30)
+                        
+                        Text(card.conditions)
+                            .font(.system(size: 20))
+                            .padding(.horizontal, 30)
+                            .padding(.bottom, 40)
+                            .foregroundColor(.black.opacity(0.7))
+                            .multilineTextAlignment(.leading)
+                        
+                    }
                 }
                 .padding(.vertical, 30)
                 .frame(maxWidth: .infinity)
@@ -55,46 +64,11 @@ struct ChallengeDetailView: View {
     
     // MARK: - HEADER
     private var header: some View {
-        ZStack {
-            HStack(spacing: 18) {
-                
-                Button(action: {}) {
-                    Image(systemName: "chevron.backward")
-                        .font(.system(size: 20, weight: .bold))
-                        .foregroundColor(.white)
-                        .padding(10)
-                        .background(.backButton)
-                        .clipShape(Circle())
-                }
-                
-                Spacer()
-                
-                HStack(spacing: 20) {
-                    Text("خارج المنزل")
-                        .font(.system(size: 25, weight: .bold))
-                        .foregroundColor(.black)
-                    
-                    Image("tree_icon")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 40)
-                        .padding(.trailing, -50)
-                }
-                
-                Spacer(minLength: 5)
-            }
-            .padding(.horizontal, 20)
-            .frame(height: 95)
-            .background(Color.white)
-            .overlay(
-                RoundedRectangle(cornerRadius: 28)
-                    .stroke(Color.white, lineWidth: 4)
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 28))
-            .padding(.top, 40)
-            .padding(.horizontal, 20)
-            .environment(\.layoutDirection, .leftToRight)
-        }
+        CustomHeaderView(
+            title: category.rawValue,
+            iconName: category.iconName,
+            onBack: { dismiss() }
+        )
         .frame(height: 170)
     } //header
 }
@@ -107,13 +81,14 @@ struct ChallengeDetailView_Previews: PreviewProvider {
             ChallengeDetailView(
                 card: ChallengeCard(
                     title: "عدّل طلبي",
-                    description: """
-- الشروط
--لازم تغيّر جزء من الطلب بشكل واضح (النوع، الإضافات، الحجم).
--مرتبط بالموضوع الحالي.
+                    description: "اطلب شيئًا في مقهى ثم قم بتغييره.",
+                    conditions: """
+- يجب تغيير جزء من الطلب بشكل واضح (النوع، الإضافات، الحجم)
+- كن مؤدبًا ومهذبًا مع الموظف
+- لا تلغي الطلب بالكامل، فقط عدّله
 """,
                     difficultyImageName: "skull_level1"
-                )
+                ), category: .outside
             )
         }
         .environment(\.layoutDirection, .rightToLeft)

@@ -52,7 +52,7 @@ struct CustomHeaderView: View {
                 Spacer(minLength: 5)
             }
                 .padding(.horizontal, 20)
-                .frame(height: 95)
+                .frame(maxWidth: .infinity, minHeight: 95)
                 .background(Color.white)
                 .overlay(
                     RoundedRectangle(cornerRadius: 28)
