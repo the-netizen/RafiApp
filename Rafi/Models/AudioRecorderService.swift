@@ -14,20 +14,34 @@ class AudioRecorderService {
     private let session = AVAudioSession.sharedInstance()
 
     private(set) var isRecording = false
-    private(set) var lastRecordingURL: URL?   // 🔹 remember last file
+    private(set) var lastRecordingURL: URL?
 
     func startRecording() {
         do {
             try session.setCategory(.playAndRecord, mode: .default)
             try session.setActive(true)
 
-            AVAudioApplication.requestRecordPermission { [weak self] allowed in
-                guard let self = self else { return }
-                DispatchQueue.main.async {
-                    if allowed {
-                        self.beginRecording()
-                    } else {
-                        print("❌ Microphone permission denied")
+            // Use new API on iOS 17+, fall back on older API otherwise
+            if #available(iOS 17.0, *) {
+                AVAudioApplication.requestRecordPermission { [weak self] allowed in
+                    guard let self = self else { return }
+                    DispatchQueue.main.async {
+                        if allowed {
+                            self.beginRecording()
+                        } else {
+                            print("❌ Microphone permission denied")
+                        }
+                    }
+                }
+            } else {
+                session.requestRecordPermission { [weak self] allowed in
+                    guard let self = self else { return }
+                    DispatchQueue.main.async {
+                        if allowed {
+                            self.beginRecording()
+                        } else {
+                            print("❌ Microphone permission denied")
+                        }
                     }
                 }
             }
@@ -39,7 +53,6 @@ class AudioRecorderService {
     private func beginRecording() {
         let fileName = "journal-\(Date().timeIntervalSince1970).m4a"
 
-        // 🔹 Save in Documents directory so it stays on device
         let documents = FileManager.default.urls(for: .documentDirectory,
                                                  in: .userDomainMask).first!
         let url = documents.appendingPathComponent(fileName)
@@ -62,7 +75,7 @@ class AudioRecorderService {
         }
     }
 
-    /// Stop and return the URL of the recorded file
+    /// Stop recording and return the file URL
     func stopRecording() -> URL? {
         audioRecorder?.stop()
         isRecording = false

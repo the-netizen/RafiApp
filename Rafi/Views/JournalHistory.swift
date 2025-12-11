@@ -16,9 +16,14 @@ struct JournalHistory: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel = JournalHistoryViewModel()
 
+    // State to present recording and naming flows
+    @State private var showRecording = false
+    @State private var pendingAudioURL: URL?
+    @State private var showNameSheet = false
+
     var body: some View {
         ZStack(alignment: .bottom) {
-            Color("bluee")              // your background color
+            Color("bluee")
                 .ignoresSafeArea()
 
             VStack(spacing: 16) {
@@ -48,6 +53,29 @@ struct JournalHistory: View {
             // MARK: - Mic button
             micButton
                 .padding(.bottom, 24)
+        }
+        .fullScreenCover(isPresented: $showRecording) {
+            JournalRecordingView { url in
+                // When recording finishes, store URL and show name sheet
+                pendingAudioURL = url
+                showNameSheet = true
+            }
+        }
+        .sheet(isPresented: $showNameSheet, onDismiss: {
+            // Clear pending URL after naming flow completes or is cancelled
+            pendingAudioURL = nil
+        }) {
+            JournalNameEntryView { title, heart in
+                // Add entry if we have an audio URL
+                if let url = pendingAudioURL {
+                    viewModel.addEntry(title: title, heartLevel: heart, audioURL: url)
+                } else {
+                    // Fallback: still add an entry without audio if desired
+                    viewModel.addEntry(title: title, heartLevel: heart, audioURL: nil)
+                }
+            } onCancel: {
+                // User cancelled naming; do nothing
+            }
         }
     }
 
@@ -90,7 +118,7 @@ struct JournalHistory: View {
 
     private var micButton: some View {
         Button(action: {
-            viewModel.toggleRecordingAndMaybeCreateEntry()
+            showRecording = true
         }) {
             ZStack {
                 Circle()
@@ -98,20 +126,11 @@ struct JournalHistory: View {
                     .frame(width: 90, height: 90)
                     .shadow(radius: 6)
 
-                // Your pixel mic icon
-                Image("micIcon")              // change to your asset name
+                Image("mico")
                     .resizable()
+                    .renderingMode(.original)
                     .scaledToFit()
                     .frame(width: 40, height: 40)
-                    .opacity(viewModel.isRecording ? 0.5 : 1.0)
-
-                // Small red dot when recording
-                if viewModel.isRecording {
-                    Circle()
-                        .fill(Color.red)
-                        .frame(width: 14, height: 14)
-                        .offset(x: 32, y: -32)
-                }
             }
         }
     }
@@ -143,7 +162,6 @@ struct JournalEntryRow: View {
 
             Spacer()
 
-            // heart icon like your design
             Image(entry.heartLevel > 1 ? "heartFullPixel" : "heartEmptyPixel")
                 .resizable()
                 .scaledToFit()

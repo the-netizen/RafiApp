@@ -9,9 +9,7 @@ import Foundation
 import Combine
 
 class JournalHistoryViewModel: ObservableObject {
-    
 
-    // 🔹 Entries shown in the list
     @Published var entries: [JournalEntry] = [
         JournalEntry(title: "Morning Thoughts",
                      date: Date(),
@@ -31,43 +29,15 @@ class JournalHistoryViewModel: ObservableObject {
                      audioURL: nil)
     ]
 
-    @Published var isRecording: Bool = false
+    func addEntry(title: String, heartLevel: Int, audioURL: URL?) {
+        let newEntry = JournalEntry(
+            title: title,
+            date: Date(),
+            heartLevel: heartLevel,
+            audioURL: audioURL
+        )
 
-    private let recorder = AudioRecorderService()
-
-    /// Called when user taps the mic button
-    func toggleRecordingAndMaybeCreateEntry() {
-        if isRecording {
-            stopRecordingAndCreateEntry()
-        } else {
-            startRecording()
-        }
-    }
-
-    private func startRecording() {
-        recorder.startRecording()
-        isRecording = true
-    }
-
-    private func stopRecordingAndCreateEntry() {
-        if let url = recorder.stopRecording() {
-            let newEntry = JournalEntry(
-                title: defaultTitleForNewEntry(),  // 🔹 auto title for now
-                date: Date(),
-                heartLevel: 1,
-                audioURL: url
-            )
-
-            // put newest on top
-            entries.insert(newEntry, at: 0)
-        }
-        isRecording = false
-    }
-
-    private func defaultTitleForNewEntry() -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .short
-        return "Recording \(formatter.string(from: Date()))"
+        // newest on top
+        entries.insert(newEntry, at: 0)
     }
 }
