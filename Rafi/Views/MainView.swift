@@ -82,6 +82,7 @@ struct MainView: View {
             }
             .navigationDestination(for: MainCategory.self) { category in
                 CardView(viewModel: CardViewViewModel(category: category))
+                    .environmentObject(viewModel)
             }
             
             // SHOW PICK ICON SHEET

@@ -4,6 +4,7 @@ struct ChallengeDetailView: View {
     let card: ChallengeCard
     let category: MainCategory
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var mainViewModel: MainViewViewModel
     
     var body: some View {
         ZStack {
@@ -37,7 +38,7 @@ struct ChallengeDetailView: View {
                             .multilineTextAlignment(.center)
 //                            .frame(maxWidth: .infinity)
                             .padding(.horizontal, 20)
-                            .padding(.bottom, 30)
+                            .padding(.bottom, 10)
                         
                         Text(card.conditions)
                             .font(.system(size: 20))
@@ -47,9 +48,23 @@ struct ChallengeDetailView: View {
                             .padding(.bottom, 40)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                        Spacer()
+                        Button {
+                            mainViewModel.navigationPath = NavigationPath()
+                        } label: {
+                            Text("Back to main menu")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 12)
+                                .background(.button)
+                                .cornerRadius(12)
+                        }
+                        .padding(.bottom, 10)
+//                    .frame(maxWidth: .infinity, alignment: .leading)
                     
+                        //
+                    }
                 }
                 .frame(maxWidth: .infinity)
                 .background(Color(.systemBackground))
@@ -78,7 +93,7 @@ struct ChallengeDetailView: View {
         )
         .frame(height: 170)
     } //header
-}
+} //body
 
 
 // MARK: PREVIEW 1
@@ -93,6 +108,7 @@ struct ChallengeDetailView_Previews: PreviewProvider {
                     conditionsKey: "outside_1_conditions")
                 , category: .outside
             )
+            .environmentObject(MainViewViewModel())
         }
     }
 }

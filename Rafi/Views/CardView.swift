@@ -6,6 +6,7 @@ struct CardView: View {
     @StateObject var viewModel: CardViewViewModel
     @GestureState private var dragOffset: CGFloat = 0
     @Environment(\.dismiss) var dismiss //makes back button work
+    @EnvironmentObject var mainViewModel: MainViewViewModel
     
     init(viewModel: CardViewViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -32,6 +33,7 @@ struct CardView: View {
         .navigationBarHidden(true) // cz we using custom header for navigation
         .navigationDestination(for: ChallengeCard.self) { card in
             ChallengeDetailView(card: card, category: viewModel.category)
+                .environmentObject(mainViewModel)
         }
     } //body
     
@@ -167,6 +169,7 @@ struct CardView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             CardView(viewModel: .previewMock)
+                .environmentObject(MainViewViewModel())
         }
 //        .environment(\.layoutDirection, .rightToLeft)
     }

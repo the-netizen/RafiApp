@@ -17,6 +17,7 @@ struct CustomButton: View {
                 
                 Text(title)
                     .foregroundColor(.primary)
+                    .padding(.horizontal, 20)
             }
         }
 //        .buttonStyle(.glass)
