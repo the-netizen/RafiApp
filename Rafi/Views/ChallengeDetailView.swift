@@ -34,7 +34,7 @@ struct ChallengeDetailView: View {
                         Text(card.title)
                             .font(.system(size: 20, weight: .bold))
                             .foregroundColor(Color(.label))
-                            .padding(.top, 40)
+                            .padding(.top, 20)
                             .multilineTextAlignment(.center)
 //                            .frame(maxWidth: .infinity)
                             .padding(.horizontal, 20)
@@ -60,18 +60,21 @@ struct ChallengeDetailView: View {
                                 .background(.button)
                                 .cornerRadius(12)
                         }
-                        .padding(.bottom, 10)
-//                    .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                        //
+                        .padding(.bottom, 20)
                     }
+                    .frame(width: 330)
                 }
-                .frame(maxWidth: .infinity)
+                .frame(maxHeight: .infinity)
                 .background(Color(.systemBackground))
-                .cornerRadius(34)
+                .cornerRadius(28)
                 .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 5)
-                .padding(.vertical, 30)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 28)
+                        .stroke(Color(.secondaryLabel), lineWidth: 4)
+                )
+                .padding(.vertical, 20)
                 .padding(.horizontal, 22)
+                
 
                 
                 

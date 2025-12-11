@@ -11,7 +11,7 @@ struct PickIconView: View {
 
     var body: some View {
         ZStack {
-            Color(red: 0.73, green: 0.88, blue: 0.89)
+            Color("bgColor")
                 .ignoresSafeArea()
             
             VStack {
@@ -36,7 +36,7 @@ struct PickIconView: View {
                         } label: {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 20)
-                                    .fill(Color.white)
+                                    .fill(Color(.systemBackground))
                                     .frame(width: 120, height: 120)
                                     .shadow(color: .black.opacity(0.15), radius: 4)
                                 

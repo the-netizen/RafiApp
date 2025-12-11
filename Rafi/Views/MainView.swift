@@ -26,11 +26,11 @@ struct MainView: View {
                                 .padding(.trailing,24)
                                 .foregroundColor(.white)
                             
-                            Text("الاسم") // you can remove if you want
-                                .font(.title3)
-                                .foregroundColor(.white.opacity(0.9))
-                                .frame(maxWidth: .infinity, alignment: .trailing)
-                                .padding(.trailing, 24)
+//                            Text("الاسم") // you can remove if you want
+//                                .font(.title3)
+//                                .foregroundColor(.white.opacity(0.9))
+//                                .frame(maxWidth: .infinity, alignment: .trailing)
+//                                .padding(.trailing, 24)
                         }
                         
                         Spacer()
@@ -42,7 +42,11 @@ struct MainView: View {
                             ZStack{
                                 RoundedRectangle(cornerRadius: 35)
                                     .frame(width: 110, height: 110)
-                                    .foregroundColor(.white)
+                                    .foregroundColor(Color(.label).opacity(0.5))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 35)
+                                            .stroke(Color(.systemBackground), lineWidth: 4)
+                                    )
                                 
                                 Image(selectedIcon)   // <-- now dynamic
                                     .resizable()
