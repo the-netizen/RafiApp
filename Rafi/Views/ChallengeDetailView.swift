@@ -4,6 +4,7 @@ struct ChallengeDetailView: View {
     let card: ChallengeCard
     let category: MainCategory
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var mainViewModel: MainViewViewModel
     
     var body: some View {
         ZStack {
@@ -32,33 +33,50 @@ struct ChallengeDetailView: View {
                         
                         Text(card.title)
                             .font(.system(size: 20, weight: .bold))
-                            .foregroundColor(.black)
+                            .foregroundColor(Color(.label))
                             .padding(.top, 40)
                             .multilineTextAlignment(.center)
 //                            .frame(maxWidth: .infinity)
                             .padding(.horizontal, 20)
-                            .padding(.bottom, 30)
+                            .padding(.bottom, 10)
                         
                         Text(card.conditions)
                             .font(.system(size: 20))
-                            .foregroundColor(.black.opacity(0.7))
+                            .foregroundColor(Color(.label).opacity(0.7))
                             .multilineTextAlignment(.leading)
                             .padding(.horizontal, 30)
                             .padding(.bottom, 40)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     
+                        Spacer()
+                        Button {
+                            mainViewModel.navigationPath = NavigationPath()
+                        } label: {
+                            Text("Back to main menu")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 12)
+                                .background(.button)
+                                .cornerRadius(12)
+                        }
+                        .padding(.bottom, 10)
+//                    .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                        //
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                .padding(.vertical, 30)
                 .frame(maxWidth: .infinity)
-                .background(Color.white)
+                .background(Color(.systemBackground))
                 .cornerRadius(34)
                 .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 5)
+                .padding(.vertical, 30)
                 .padding(.horizontal, 22)
+
+                
                 
                 Spacer()
-                Spacer()
+//                Spacer()
             }
         }
 //        .environment(\.layoutDirection, .rightToLeft)
@@ -75,7 +93,7 @@ struct ChallengeDetailView: View {
         )
         .frame(height: 170)
     } //header
-}
+} //body
 
 
 // MARK: PREVIEW 1
@@ -90,6 +108,7 @@ struct ChallengeDetailView_Previews: PreviewProvider {
                     conditionsKey: "outside_1_conditions")
                 , category: .outside
             )
+            .environmentObject(MainViewViewModel())
         }
     }
 }

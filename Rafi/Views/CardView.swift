@@ -6,6 +6,7 @@ struct CardView: View {
     @StateObject var viewModel: CardViewViewModel
     @GestureState private var dragOffset: CGFloat = 0
     @Environment(\.dismiss) var dismiss //makes back button work
+    @EnvironmentObject var mainViewModel: MainViewViewModel
     
     init(viewModel: CardViewViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -32,6 +33,7 @@ struct CardView: View {
         .navigationBarHidden(true) // cz we using custom header for navigation
         .navigationDestination(for: ChallengeCard.self) { card in
             ChallengeDetailView(card: card, category: viewModel.category)
+                .environmentObject(mainViewModel)
         }
     } //body
     
@@ -93,8 +95,12 @@ struct ChallengeCardView: View {
         
         ZStack {
             RoundedRectangle(cornerRadius: 24)
-                .fill(Color.white)
+                .fill(Color(.systemBackground))
                 .shadow(color: .black.opacity(0.12), radius: 8, x: 0, y: 6)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 28)
+                        .stroke(Color(.secondaryLabel), lineWidth: 4)
+                )
             
             Image(card.difficultyImageName)
                 .resizable()
@@ -105,7 +111,7 @@ struct ChallengeCardView: View {
             VStack(spacing: 16) {
                 Text(card.title)
                     .font(.system(size: 26, weight: .bold))
-                    .foregroundColor(.black)
+                    .foregroundColor(Color(.label))
                     .padding(.top, 40)
                     .padding(.horizontal, 20)
                     .multilineTextAlignment(.center)
@@ -113,7 +119,7 @@ struct ChallengeCardView: View {
                 
                 Text(card.description)
                     .font(.system(size: 20, weight: .medium))
-                    .foregroundColor(.black.opacity(0.7))
+                    .foregroundColor(Color(.label).opacity(0.7))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 30)
 //                    .lineLimit(3)
@@ -163,6 +169,7 @@ struct CardView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             CardView(viewModel: .previewMock)
+                .environmentObject(MainViewViewModel())
         }
 //        .environment(\.layoutDirection, .rightToLeft)
     }

@@ -1,31 +1,27 @@
 import SwiftUI
 
 struct PickIconView: View {
-    
     let icons = [
         "iconGirlHat", "iconBoy", "iconBoyGlasses",
         "iconGirl", "iconBoyOld", "iconGirlOrange"
     ]
     
     @Environment(\.dismiss) private var dismiss
-    
+    @Binding var selectedIcon: String
+
     var body: some View {
         ZStack {
-            // Background
             Color(red: 0.73, green: 0.88, blue: 0.89)
                 .ignoresSafeArea()
             
             VStack {
                 Spacer()
-                // Top bar
                 
-                // Title
                 Text("Pick an Icon")
-                    .font(.system(size: 26, ))
+                    .font(.system(size: 26))
                 
                 Spacer()
                 
-                // Grid
                 LazyVGrid(
                     columns: [
                         GridItem(.flexible(), spacing: 20),
@@ -34,25 +30,30 @@ struct PickIconView: View {
                     spacing: 25
                 ) {
                     ForEach(icons, id: \.self) { icon in
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 20)
-                                .fill(Color.white)
-                                .frame(width: 120, height: 120)
-                                .shadow(color: .black.opacity(0.15), radius: 4)
-                            
-                            Image(icon)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 80, height: 80)
+                        Button {
+                            selectedIcon = icon
+                            dismiss()
+                        } label: {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(Color.white)
+                                    .frame(width: 120, height: 120)
+                                    .shadow(color: .black.opacity(0.15), radius: 4)
+                                
+                                Image(icon)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 80, height: 80)
+                            }
                         }
+                        .buttonStyle(.plain)
                     }
                 }
                 .padding(.horizontal, 45)
                 
                 Spacer()
                 
-                // Button
-                Button(action: {}) {
+                Button(action: { dismiss() }) {
                     Text("دخول")
                         .foregroundColor(.white)
                         .font(.system(size: 18, weight: .medium))
@@ -68,6 +69,6 @@ struct PickIconView: View {
 
 struct PickIconView_Previews: PreviewProvider {
     static var previews: some View {
-        PickIconView()
+        PickIconView(selectedIcon: .constant("iconGirl"))
     }
 }

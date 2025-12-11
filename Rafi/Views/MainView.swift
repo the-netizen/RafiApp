@@ -3,8 +3,11 @@ import SwiftUI
 struct MainView: View {
     @EnvironmentObject var session: UserSession
     @StateObject var viewModel = MainViewViewModel()
-    //    @State private var selectedCategory: MainCategory?
     
+    // NEW: save selected icon & whether user picked before
+    @AppStorage("selectedIcon") private var selectedIcon: String = "iconGirl"
+    @AppStorage("hasPickedIcon") private var hasPickedIcon: Bool = false
+    @State private var showPickIcon = false
     
     var body: some View {
         NavigationStack(path: $viewModel.navigationPath) {
@@ -23,7 +26,7 @@ struct MainView: View {
                                 .padding(.trailing,24)
                                 .foregroundColor(.white)
                             
-                            Text("الاسم") // remove ?
+                            Text("الاسم") // you can remove if you want
                                 .font(.title3)
                                 .foregroundColor(.white.opacity(0.9))
                                 .frame(maxWidth: .infinity, alignment: .trailing)
@@ -32,20 +35,23 @@ struct MainView: View {
                         
                         Spacer()
                         
-                        // icon
-                        ZStack{
-                            RoundedRectangle(cornerRadius: 35)
-                                .frame(width: 110, height: 110)
-                                .foregroundColor(.white)
-                            
-                            // chosen image will become the icon
-                            Image("iconGirl")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 90)
+                        // icon (NOW CLICKABLE)
+                        Button {
+                            showPickIcon = true
+                        } label: {
+                            ZStack{
+                                RoundedRectangle(cornerRadius: 35)
+                                    .frame(width: 110, height: 110)
+                                    .foregroundColor(.white)
+                                
+                                Image(selectedIcon)   // <-- now dynamic
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 90)
+                            }
                         }
-                        
-                    } //Hstack header ends
+                        .buttonStyle(.plain)
+                    }
                     .padding(.horizontal, 24)
                     .padding(.top, 40)
                     
@@ -65,7 +71,6 @@ struct MainView: View {
                     VStack(spacing: 20) {
                         ForEach(viewModel.categories) { category in
                             Button {
-                                // print("Button tapped for category: \(category.rawValue)")
                                 viewModel.navigateToCategory(category)
                             } label: {
                                 CategoryCardView(category: category)
@@ -73,26 +78,31 @@ struct MainView: View {
                             .buttonStyle(.plain)
                         }
                     }
-                } //Vstack
-            } //zstack
-            .navigationDestination(for: MainCategory.self) { category in
-                // 🔹 if Journal → go to JournalHistory
-                if category == .journal {
-                    JournalHistory()
-                } else {
-                    // 🔹 all other categories → go to CardView (same as before)
-                    CardView(viewModel: CardViewViewModel(category: category))
                 }
             }
-        } //navigationStack
-    } //body
-} //main view
- 
+            .navigationDestination(for: MainCategory.self) { category in
+                CardView(viewModel: CardViewViewModel(category: category))
+                    .environmentObject(viewModel)
+            }
+            
+            // SHOW PICK ICON SHEET
+            .sheet(isPresented: $showPickIcon, onDismiss: {
+                hasPickedIcon = true
+            }) {
+                PickIconView(selectedIcon: $selectedIcon)
+            }
+            
+            // FIRST LAUNCH LOGIC
+            .onAppear {
+                if !hasPickedIcon {
+                    showPickIcon = true
+                }
+            }
+        }
+    }
+}
+
 #Preview {
-//    let mockSession = UserSession()
-
-    return MainView()
-//        .environment(\.locale, .init(identifier: "ar"))
+    MainView()
         .environment(\.locale, .init(identifier: "en"))
-
 }

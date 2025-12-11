@@ -8,9 +8,12 @@ struct CategoryCardView: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 24, style: .continuous)
-                .fill(Color.white)
+                .fill(Color(.systemBackground))
                 .shadow(radius: 3)
-
+                .overlay(
+                    RoundedRectangle(cornerRadius: 28)
+                        .stroke(Color(.secondaryLabel), lineWidth: 4)
+                )
             HStack {
                 Spacer()
 
@@ -25,12 +28,12 @@ struct CategoryCardView: View {
 
             Text(category.title)
                 .font(.system(size: 24, weight: .semibold))   // خط أصغر بشوي
-                .foregroundColor(.black)
+                .foregroundColor(Color(.label))
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
         .frame(width:330)
-        .frame(height: 130)
+        .frame(height: 100)
         .onAppear {
             animate = true
         }
