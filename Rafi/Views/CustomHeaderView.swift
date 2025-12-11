@@ -5,7 +5,7 @@
 //  Created by Naima Khan on 07/12/2025.
 //
 
-import SwiftUI
+internal import SwiftUI
 
 struct CustomHeaderView: View {
     let title: String

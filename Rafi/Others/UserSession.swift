@@ -5,7 +5,7 @@
 //  Created by Lyan on 10/06/1447 AH.
 //
 
-import SwiftUI
+internal import SwiftUI
 import Combine
 
 class UserSession: ObservableObject {

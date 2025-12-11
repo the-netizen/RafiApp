@@ -1,5 +1,5 @@
 import Foundation
-import SwiftUI
+internal import SwiftUI
 import Combine
 
 class UpdatedCardViewModel: ObservableObject {

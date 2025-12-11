@@ -10,7 +10,7 @@
 //  Created by Manar on 10/12/2025.
 //
 
-import SwiftUI
+internal import SwiftUI
 
 struct JournalHistory: View {
     @Environment(\.dismiss) private var dismiss

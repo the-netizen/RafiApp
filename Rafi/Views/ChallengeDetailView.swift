@@ -1,4 +1,4 @@
-import SwiftUI
+internal import SwiftUI
 
 struct ChallengeDetailView: View {
     let card: ChallengeCard

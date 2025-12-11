@@ -1,5 +1,5 @@
 
-import SwiftUI
+internal import SwiftUI
 
 struct LoginView: View {
     @StateObject private var vm = LoginViewViewModel()

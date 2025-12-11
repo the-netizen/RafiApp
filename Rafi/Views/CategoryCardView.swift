@@ -1,4 +1,4 @@
-import SwiftUI
+internal import SwiftUI
 
 struct CategoryCardView: View {
     let category: MainCategory

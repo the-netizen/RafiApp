@@ -1,4 +1,4 @@
-import SwiftUI
+internal import SwiftUI
 
 struct SplashViewBounce: View {
     @State private var showSplash = true

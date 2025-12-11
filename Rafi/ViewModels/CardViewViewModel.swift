@@ -5,7 +5,7 @@
 //  Created by Huda Chishtee on 01/12/2025.
 //
 
-import SwiftUI
+internal import SwiftUI
 import Combine
 
 struct ChallengeCard: Identifiable, Hashable {

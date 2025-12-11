@@ -1,6 +1,6 @@
 
 import Foundation
-import SwiftUI
+internal import SwiftUI
 
 enum MainCategory: String, Identifiable, CaseIterable {
     case home

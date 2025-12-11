@@ -1,6 +1,6 @@
 
 import Foundation
-import SwiftUI
+internal import SwiftUI
 
 let HomeChallenges: [ChallengeCard] = [
     ChallengeCard(

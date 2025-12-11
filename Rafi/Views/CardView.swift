@@ -1,5 +1,5 @@
 
-import SwiftUI
+internal import SwiftUI
 
 struct CardView: View {
     
