@@ -41,6 +41,7 @@ struct CardView: View {
                 let card = viewModel.cards[index]
                 let isTop = index == viewModel.currentIndex
                 
+                // swiping
                 ChallengeCardView(card: card)
                     .offset(
                         x: isTop ? dragOffset : 0,
