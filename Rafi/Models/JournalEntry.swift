@@ -3,10 +3,9 @@
 //  Rafi
 //
 //  Created by Noor Alhassani on 20/06/1447 AH.
-//
 import Foundation
 
-struct JournalEntry: Identifiable, Codable, Equatable {
+struct JournalEntry: Identifiable {
     let id: UUID
     var title: String
     var date: Date

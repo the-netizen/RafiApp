@@ -52,14 +52,7 @@ struct JournalHistory: View {
 
             // MARK: - Mic button
             micButton
-                .padding(.bottom, 24)
-        }
-        .fullScreenCover(isPresented: $showRecording) {
-            JournalRecordingView { url in
-                // When recording finishes, store URL and show name sheet
-                pendingAudioURL = url
-                showNameSheet = true
-            }
+                .padding(.bottom, 70)
         }
         .sheet(isPresented: $showNameSheet, onDismiss: {
             // Clear pending URL after naming flow completes or is cancelled
@@ -75,6 +68,13 @@ struct JournalHistory: View {
                 }
             } onCancel: {
                 // User cancelled naming; do nothing
+            }
+        }
+        .fullScreenCover(isPresented: $showRecording) {
+            JournalRecordingView { url in
+                // When recording finishes, store URL and show name sheet
+                pendingAudioURL = url
+                showNameSheet = true
             }
         }
     }
@@ -126,7 +126,7 @@ struct JournalHistory: View {
                     .frame(width: 90, height: 90)
                     .shadow(radius: 6)
 
-                Image("mico")
+                Image("Mico")
                     .resizable()
                     .renderingMode(.original)
                     .scaledToFit()

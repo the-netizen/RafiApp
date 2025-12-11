@@ -105,14 +105,15 @@ struct JournalRecordingView: View {
                             .shadow(radius: 8)
 
                         // 🔹 your asset name here
-                        Image("mico")
+                        Image("Mico")
                             .resizable()
                             .renderingMode(.original)
                             .scaledToFit()
-                            .frame(width: 44, height: 44)
+                        frame(width: 100, height: 100)
+                        .frame(width: 50, height: 50)
                     }
                 }
-                .padding(.bottom, 40)
+                .padding(.bottom, 70)
             }
         }
         .onAppear {

@@ -5,34 +5,18 @@
 //  Created by Noor Alhassani on 20/06/1447 AH.
 //
 import Foundation
-internal import SwiftUI
 import Combine
+internal import SwiftUI
 
 class JournalHistoryViewModel: ObservableObject {
-    // All entries that appear in your list
-    @Published var entries: [JournalEntry] = []
 
-    // Where we save the JSON file on the device
-    private let saveURL: URL
+    // Entries shown in the list
+    @Published var entries: [JournalEntry] = JournalHistoryViewModel.sampleEntries
 
-    init() {
-        let documents = FileManager.default.urls(for: .documentDirectory,
-                                                 in: .userDomainMask).first!
-        self.saveURL = documents.appendingPathComponent("journal_entries.json")
+    // For now we do NOT load or save from disk.
+    // We just use sample data so the app is stable.
 
-        // Try to load previous data
-        loadEntries()
-
-        // If nothing saved yet, fill with sample entries once
-        if entries.isEmpty {
-            entries = Self.sampleEntries
-            saveEntries()
-        }
-    }
-
-    // MARK: - PUBLIC METHODS
-
-    /// Called from the naming sheet when the user taps "Add"
+    // MARK: - Add new entry from recording screen
     func addEntry(title: String, heartLevel: Int, audioURL: URL?) {
         let newEntry = JournalEntry(
             title: title,
@@ -43,17 +27,14 @@ class JournalHistoryViewModel: ObservableObject {
 
         // newest at the top
         entries.insert(newEntry, at: 0)
-        saveEntries()
     }
 
-    /// If you ever add swipe-to-delete in the list
+    // Optional: later if you add swipe to delete
     func deleteEntry(at offsets: IndexSet) {
         entries.remove(atOffsets: offsets)
-        saveEntries()
     }
 
-    // MARK: - SAMPLE DATA (for first launch)
-
+    // MARK: - Sample data (like before, so screen isn’t empty)
     private static let sampleEntries: [JournalEntry] = [
         JournalEntry(title: "Morning Thoughts",
                      date: Date(),
@@ -68,32 +49,4 @@ class JournalHistoryViewModel: ObservableObject {
                      date: Date().addingTimeInterval(-259200),
                      heartLevel: 2)
     ]
-
-    // MARK: - PERSISTENCE
-
-    private func saveEntries() {
-        do {
-            let encoder = JSONEncoder()
-            encoder.dateEncodingStrategy = .iso8601
-            let data = try encoder.encode(entries)
-            try data.write(to: saveURL, options: Data.WritingOptions.atomic)
-            print("✅ Saved entries to:", saveURL.lastPathComponent)
-        } catch {
-            print("❌ Error saving entries:", error)
-        }
-    }
-
-    private func loadEntries() {
-        do {
-            let data = try Data(contentsOf: saveURL)
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .iso8601
-            let loaded = try decoder.decode([JournalEntry].self, from: data)
-            self.entries = loaded
-            print("📂 Loaded \(loaded.count) entries from disk")
-        } catch {
-            // First run or failed to load – we’ll handle by using sample entries
-            print("ℹ️ No saved entries yet or failed to load:", error.localizedDescription)
-        }
-    }
 }
