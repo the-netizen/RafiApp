@@ -10,10 +10,22 @@ import Combine
 
 struct ChallengeCard: Identifiable, Hashable {
     let id = UUID()
-    let title: String
-    let description: String
-    let conditions: String
     let difficultyImageName: String
+    let titleKey: String
+    let descriptionKey: String
+    let conditionsKey: String
+    
+    // fetch Localized data
+    var title: String {
+        NSLocalizedString(titleKey, comment: "")
+    }
+    var description: String {
+        NSLocalizedString(descriptionKey, comment: "")
+    }
+    var conditions: String {
+        NSLocalizedString(conditionsKey, comment: "")
+    }
+    
     
     // Hashable conformance for NavigationLink (no idea what it does but dont touch this)
     func hash(into hasher: inout Hasher) {
@@ -39,13 +51,13 @@ final class CardViewViewModel: ObservableObject {
     var canGoPrev: Bool { currentIndex > 0 }
 
     func goNext() {
-        guard canGoNext else { return }
-        currentIndex += 1
+        guard !cards.isEmpty else { return }
+        currentIndex = (currentIndex + 1) % cards.count
     }
 
     func goPrev() {
-        guard canGoPrev else { return }
-        currentIndex -= 1
+        guard !cards.isEmpty else { return }
+        currentIndex = (currentIndex - 1 + cards.count) % cards.count
     }
 
     var currentCard: ChallengeCard? {

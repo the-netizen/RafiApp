@@ -17,13 +17,13 @@ struct MainView: View {
                     /// HEADER
                     HStack {
                         VStack(alignment: .center, spacing: 6) {
-                            Text("أهلاً وسهلاً!")
+                            Text("welcome_title")
                                 .font(.system(size: 28, weight: .bold))
                                 .frame(maxWidth: .infinity, alignment: .trailing)
                                 .padding(.trailing,24)
                                 .foregroundColor(.white)
                             
-                            Text("الاسم")
+                            Text("الاسم") // remove ?
                                 .font(.title3)
                                 .foregroundColor(.white.opacity(0.9))
                                 .frame(maxWidth: .infinity, alignment: .trailing)
@@ -56,13 +56,12 @@ struct MainView: View {
                         .padding(.horizontal, 24)
                     
                     // MARK: اختر تحديك
-                    Text("اختر تحديك وابدأ رحلتك")
+                    Text("choose_challenge")
                         .font(.system(size: 20, weight: .medium))
                         .foregroundColor(.white.opacity(0.9))
                         .padding(.top, 10)
                     
                     /// CATEGORY BUTTONS
-                    // MARK: الكاتيقريز
                     VStack(spacing: 20) {
                         ForEach(viewModel.categories) { category in
                             Button {
@@ -84,9 +83,11 @@ struct MainView: View {
 } //main view
  
 #Preview {
-    let mockSession = UserSession()
+//    let mockSession = UserSession()
 
     return MainView()
-        .environmentObject(mockSession)
+//        .environment(\.locale, .init(identifier: "ar"))
+        .environment(\.locale, .init(identifier: "en"))
+
 }
 

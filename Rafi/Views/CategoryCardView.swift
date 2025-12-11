@@ -20,13 +20,14 @@ struct CategoryCardView: View {
                     .frame(width: 60, height: 60)   // ايقونة أصغر شوي
                     .scaleEffect(animate ? 1.06 : 1.0)
 //                    .animation(.easeInOut(duration: 1.2).repeatForever(), value: animate)
-            }
-            .padding(.horizontal, 22)
+//            .padding(.leading, 20)
+            .padding(.horizontal, 40)
 
-            Text(category.rawValue)
+            Text(category.title)
                 .font(.system(size: 24, weight: .semibold))   // خط أصغر بشوي
                 .foregroundColor(.black)
-                .frame(maxWidth: .infinity, alignment: .center)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
         }
         .frame(width:330)
         .frame(height: 130)

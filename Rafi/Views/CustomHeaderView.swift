@@ -38,15 +38,16 @@ struct CustomHeaderView: View {
                 
                 // title + icon
                 HStack(spacing: 20) {
+                    
                     Text(title)
                         .font(.system(size: 25, weight: .medium))
                         .foregroundColor(.black)
                     
-                    Image(iconName)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 40)
-                        .padding(.trailing, -50)
+//                    Image(iconName)
+//                        .resizable()
+//                        .scaledToFit()
+//                        .frame(height: 40)
+                    //                        .padding(.trailing, -50)
                     
                 }
                 Spacer(minLength: 5)

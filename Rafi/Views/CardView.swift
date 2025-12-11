@@ -59,21 +59,22 @@ struct CardView: View {
                                 state = value.translation.width
                             }
                             .onEnded { value in
-                                if value.translation.width < -120 {
+                                let swipeThreshold: CGFloat = 80
+                                
+                                // Allow both left and right swipes
+                                if abs(value.translation.width) > swipeThreshold {
                                     viewModel.goNext()
-                                } else if value.translation.width > 120 {
-                                    viewModel.goPrev()
                                 }
                             }
                         : nil
                     )
             }
         } // Zstack
-    }
+    } // card stack ends here
     
     var header: some View {
         CustomHeaderView(
-            title: viewModel.category.rawValue,
+            title: viewModel.category.title,
             iconName: viewModel.category.iconName,
             onBack: {
                 dismiss()
@@ -105,6 +106,7 @@ struct ChallengeCardView: View {
                     .font(.system(size: 26, weight: .bold))
                     .foregroundColor(.black)
                     .padding(.top, 40)
+                    .padding(.horizontal, 20)
                     .multilineTextAlignment(.center)
                 Spacer()
                 
@@ -119,7 +121,7 @@ struct ChallengeCardView: View {
                 
                 // nav to detail page
                 NavigationLink(value: card) {
-                    Text("ابدأ")
+                    Text("start_button")
                         .font(.system(size: 18, weight: .semibold))
                         .foregroundColor(.white)
                         .padding(.horizontal, 56)
@@ -141,14 +143,14 @@ extension CardViewViewModel {
     static var previewMock: CardViewViewModel {
         let vm = CardViewViewModel(category: .outside)
         vm.cards = [
-            ChallengeCard(title: "عدّل طلبي", 
-                         description: "اذهب إلى مطعم…", 
-                         conditions: "يجب تغيير جزء من الطلب بشكل واضح",
-                         difficultyImageName: "skull_level1"),
-            ChallengeCard(title: "عنوان تجريبي", 
-                         description: "وصف أطول قليلاً", 
-                         conditions: "شروط التحدي هنا",
-                         difficultyImageName: "skull_level2")
+            ChallengeCard(difficultyImageName: "skull_level1",
+                         titleKey: "outside_1_title", 
+                         descriptionKey: "outside_1_description", 
+                         conditionsKey: "outside_1_conditions"),
+            ChallengeCard(difficultyImageName: "skull_level2",
+                         titleKey: "outside_2_title", 
+                         descriptionKey: "outside_2_description", 
+                         conditionsKey: "outside_2_conditions")
         ]
         vm.currentIndex = 0
         return vm

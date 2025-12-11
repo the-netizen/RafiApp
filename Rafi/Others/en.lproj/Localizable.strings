@@ -1,0 +1,140 @@
+
+"welcome_title" = "Welcome!";
+"choose_challenge" = "Choose your challenge";
+"start_button" = "Start";
+"home" = "Home";
+"outside" = "Outside";
+"journal" = "Journal";
+
+// home ----------------------------------------
+"home_1_title" = "Mirror Voluntary Stuttering";
+"home_1_description" = "Stand in front of a mirror and intentionally stutter on purpose. This technique, based on desensitization therapy, helps reduce fear, shame, and physical tension by giving you control over the stutter.";
+"home_1_conditions" = "
+- Stand in front of a mirror for 1 minute.
+
+- Produce voluntary stutters gently and slowly.
+
+- Do not try to “sound perfect.”
+
+- Focus on accepting the sound of your speech.";
+
+"home_2_title" = "One-Minute Voice Note About Your Day";
+"home_2_description" = " Record a voice message about something simple—your day, your plans, or your mood. Self-recording helps reduce perfectionism and increases comfort hearing your own voice.";
+"home_2_conditions" = "
+- Record for at least 1 minute.
+
+- No deleting or re-recording.
+
+- Allow any stuttering to happen naturally.
+
+- Listen to the recording once with no judgment.";
+
+"home_3_title" = "Read Aloud with Fluency Techniques";
+"home_3_description" = " Practice fluency-shaping skills such as slow rate, easy onset, and light articulatory contact. This builds foundational physical control for smoother speech. ";
+"home_3_conditions" = "
+- Choose a short paragraph (5–7 lines).
+
+- Read it aloud slowly.
+
+- Use relaxed breathing and gentle starts.
+
+- Do not rush through difficult words.";
+
+"home_4_title" = "Phone Call Simulation";
+"home_4_description" = " Phone calls are one of the most stressful speaking situations for people who stutter. Practicing with a voicemail or your own number creates exposure without social pressure.";
+"home_4_conditions" = "
+- Call your own voicemail or a voice recorder.
+
+- Leave a 30–45 second message.
+
+- Say your name once.
+
+- Do not delete or re-record the message.";
+
+"home_5_title" = "The Starter Switch Drill";
+"home_5_description" = "Starting a sentence is usually the hardest moment for speech. This drill helps build flexibility and reduces tension on the first sound by practicing alternative openings.";
+"home_5_conditions" = "
+- Pick one sentence (e.g., “I want to explain something…”).
+
+- Say it using 3–5 different starters (e.g., “I think…”, “In my view…”, “I feel like…”).
+
+- Write or say them naturally.";
+
+
+// outside ----------------------------------------
+"outside_1_title" = "Order Something New at a Café";
+"outside_1_description" = "Breaking routine and ordering a new item builds confidence and reduces avoidance in real-world speaking situations.";
+"outside_1_conditions" = "
+- Go to a café or restaurant you know.
+
+- Order a food or drink you’ve never tried.
+
+- Say the order clearly, even if you stutter.
+
+- Write down how you felt afterward.";
+
+"outside_2_title" = " Ask a Stranger for Directions";
+"outside_2_description" = "Short interactions with strangers help reduce social anxiety around speech because the conversation is predictable and brief.";
+"outside_2_conditions" = "
+- Ask a simple question like: “Excuse me, where is the exit?”
+
+- Choose someone approachable.
+
+- Maintain eye contact for 1–2 seconds.
+
+- Do not avoid or rush the words.";
+
+"outside_3_title" = "Ask a Cashier a Simple Question";
+"outside_3_description" = "Minimally stressful interactions build exposure to spontaneous speech without long conversations, helping reduce avoidance behavior.";
+"outside_3_conditions" = "
+- Ask a cashier or staff member a short question like:
+
+                    “What time do you close? 
+                    “Do you have bags?”
+
+- Keep your body relaxed.
+
+- Allow any stutter to happen without apologizing.";
+
+"outside_4_title" = "Start a 2-Minute Conversation";
+"outside_4_description" = "Longer interactions improve conversational flow and help build comfort taking multiple speaking turns—something many people who stutter avoid.";
+"outside_4_conditions" = "
+- Start a conversation with someone (barista, receptionist, gym trainer).
+
+- Ask one follow-up question.
+
+- Aim for a 2-minute interaction.
+
+- Do not escape the conversation early.";
+
+"outside_5_title" = "Say Your Name First";
+"outside_5_description" = "Names are a common stuttering trigger. Practicing saying your name in real settings helps reduce anticipatory fear and builds confidence.";
+"outside_5_conditions" = "
+- Start an interaction with: “Hi, my name is _.”
+
+- Use this when asking a worker for help or information.
+
+- Pause and breathe before your name.
+
+- Do not switch or shorten your name.";
+
+
+"journal_1_title" = "";
+"journal_1_description" = "";
+"journal_1_conditions" = "";
+
+"journal_2_title" = "";
+"journal_2_description" = "";
+"journal_2_conditions" = "";
+
+"journal_3_title" = "";
+"journal_3_description" = "";
+"journal_3_conditions" = "";
+
+"journal_4_title" = "";
+"journal_4_description" = "";
+"journal_4_conditions" = "";
+
+"journal_5_title" = "";
+"journal_5_description" = "";
+"journal_5_conditions" = "";

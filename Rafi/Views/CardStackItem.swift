@@ -55,13 +55,8 @@ struct CardStackItem: View {
 struct CardStackItem_Previews: PreviewProvider {
     static var previews: some View {
         CardStackItem(
-            card: ChallengeCard(
-                title: "عنوان",
-                description: "نبذة عن التحدي",
-                conditions: "These are the conditions",
-                difficultyImageName: "skull_level1"
+            card: ChallengeCard(difficultyImageName: "String", titleKey: "String", descriptionKey: "String", conditionsKey: "String")
             )
-        )
         .environment(\.layoutDirection, .rightToLeft)
     }
 }

@@ -1,0 +1,28 @@
+
+welcome_title = "你好!";
+choose_challenge = "Choose your challenge";
+start_button = "Start";
+home = "Home";
+outside = "Outside";
+journal = "Journal";
+
+
+home_1_title = "";
+home_1_description = "";
+home_1_conditions = "";
+
+home_2_title = "";
+home_2_description = "";
+home_2_conditions = "";
+
+home_3_title = "";
+home_3_description = "";
+home_3_conditions = "";
+
+home_4_title = "";
+home_4_description = "";
+home_4_conditions = "";
+
+home_5_title = "";
+home_5_description = "";
+home_5_conditions = "";

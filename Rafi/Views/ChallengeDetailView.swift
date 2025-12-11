@@ -28,23 +28,27 @@ struct ChallengeDetailView: View {
                         .opacity(0.70)
                     
                     // Text
-                    VStack(spacing: 20) {
+                    VStack {
                         
                         Text(card.title)
                             .font(.system(size: 20, weight: .bold))
                             .foregroundColor(.black)
                             .padding(.top, 40)
                             .multilineTextAlignment(.center)
+//                            .frame(maxWidth: .infinity)
+                            .padding(.horizontal, 20)
                             .padding(.bottom, 30)
                         
                         Text(card.conditions)
                             .font(.system(size: 20))
-                            .padding(.horizontal, 30)
-                            .padding(.bottom, 40)
                             .foregroundColor(.black.opacity(0.7))
                             .multilineTextAlignment(.leading)
-                        
+                            .padding(.horizontal, 30)
+                            .padding(.bottom, 40)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .padding(.vertical, 30)
                 .frame(maxWidth: .infinity)
@@ -57,7 +61,7 @@ struct ChallengeDetailView: View {
                 Spacer()
             }
         }
-        .environment(\.layoutDirection, .rightToLeft)
+//        .environment(\.layoutDirection, .rightToLeft)
         .navigationBarHidden(true)
     }
     
@@ -65,7 +69,7 @@ struct ChallengeDetailView: View {
     // MARK: - HEADER
     private var header: some View {
         CustomHeaderView(
-            title: category.rawValue,
+            title: category.title,
             iconName: category.iconName,
             onBack: { dismiss() }
         )
@@ -80,17 +84,12 @@ struct ChallengeDetailView_Previews: PreviewProvider {
         NavigationStack {
             ChallengeDetailView(
                 card: ChallengeCard(
-                    title: "عدّل طلبي",
-                    description: "اطلب شيئًا في مقهى ثم قم بتغييره.",
-                    conditions: """
-- يجب تغيير جزء من الطلب بشكل واضح (النوع، الإضافات، الحجم)
-- كن مؤدبًا ومهذبًا مع الموظف
-- لا تلغي الطلب بالكامل، فقط عدّله
-""",
-                    difficultyImageName: "skull_level1"
-                ), category: .outside
+                    difficultyImageName: "skull_level1",
+                    titleKey: "outside_1_title",
+                    descriptionKey: "outside_1_description",
+                    conditionsKey: "outside_1_conditions")
+                , category: .outside
             )
         }
-        .environment(\.layoutDirection, .rightToLeft)
     }
 }
