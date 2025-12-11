@@ -3,11 +3,8 @@ import SwiftUI
 struct MainView: View {
     @EnvironmentObject var session: UserSession
     @StateObject var viewModel = MainViewViewModel()
+    //    @State private var selectedCategory: MainCategory?
     
-    // NEW: save selected icon & whether user picked before
-    @AppStorage("selectedIcon") private var selectedIcon: String = "iconGirl"
-    @AppStorage("hasPickedIcon") private var hasPickedIcon: Bool = false
-    @State private var showPickIcon = false
     
     var body: some View {
         NavigationStack(path: $viewModel.navigationPath) {
@@ -26,7 +23,7 @@ struct MainView: View {
                                 .padding(.trailing,24)
                                 .foregroundColor(.white)
                             
-                            Text("الاسم") // you can remove if you want
+                            Text("الاسم") // remove ?
                                 .font(.title3)
                                 .foregroundColor(.white.opacity(0.9))
                                 .frame(maxWidth: .infinity, alignment: .trailing)
@@ -35,23 +32,20 @@ struct MainView: View {
                         
                         Spacer()
                         
-                        // icon (NOW CLICKABLE)
-                        Button {
-                            showPickIcon = true
-                        } label: {
-                            ZStack{
-                                RoundedRectangle(cornerRadius: 35)
-                                    .frame(width: 110, height: 110)
-                                    .foregroundColor(.white)
-                                
-                                Image(selectedIcon)   // <-- now dynamic
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 90)
-                            }
+                        // icon
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 35)
+                                .frame(width: 110, height: 110)
+                                .foregroundColor(.white)
+                            
+                            // chosen image will become the icon
+                            Image("iconGirl")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 90)
                         }
-                        .buttonStyle(.plain)
-                    }
+                        
+                    } //Hstack header ends
                     .padding(.horizontal, 24)
                     .padding(.top, 40)
                     
@@ -70,39 +64,42 @@ struct MainView: View {
                     /// CATEGORY BUTTONS
                     VStack(spacing: 20) {
                         ForEach(viewModel.categories) { category in
-                            Button {
-                                viewModel.navigateToCategory(category)
-                            } label: {
-                                CategoryCardView(category: category)
+                            
+                            // 🔹 SPECIAL CASE: Journal
+                            if category == .journal {
+                                NavigationLink {
+                                    JournalHistory()          // 👈 your new journal screen
+                                } label: {
+                                    CategoryCardView(category: category)
+                                }
+                                .buttonStyle(.plain)
+                            } else {
+                                // 🔹 All other categories use the old flow
+                                Button {
+                                    viewModel.navigateToCategory(category)
+                                } label: {
+                                    CategoryCardView(category: category)
+                                }
+                                .buttonStyle(.plain)
                             }
-                            .buttonStyle(.plain)
                         }
                     }
-                }
-            }
+                } //Vstack
+            } //zstack
+            
+            // This is still for Home / Outside etc.
             .navigationDestination(for: MainCategory.self) { category in
                 CardView(viewModel: CardViewViewModel(category: category))
-                    .environmentObject(viewModel)
             }
-            
-            // SHOW PICK ICON SHEET
-            .sheet(isPresented: $showPickIcon, onDismiss: {
-                hasPickedIcon = true
-            }) {
-                PickIconView(selectedIcon: $selectedIcon)
-            }
-            
-            // FIRST LAUNCH LOGIC
-            .onAppear {
-                if !hasPickedIcon {
-                    showPickIcon = true
-                }
-            }
-        }
-    }
-}
-
+        } //navigationStack
+    } //body
+} //main view
+ 
 #Preview {
-    MainView()
+//    let mockSession = UserSession()
+
+    return MainView()
+//        .environment(\.locale, .init(identifier: "ar"))
         .environment(\.locale, .init(identifier: "en"))
+
 }
