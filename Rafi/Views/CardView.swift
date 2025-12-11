@@ -93,8 +93,12 @@ struct ChallengeCardView: View {
         
         ZStack {
             RoundedRectangle(cornerRadius: 24)
-                .fill(Color.white)
+                .fill(Color(.systemBackground))
                 .shadow(color: .black.opacity(0.12), radius: 8, x: 0, y: 6)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 28)
+                        .stroke(Color(.secondaryLabel), lineWidth: 4)
+                )
             
             Image(card.difficultyImageName)
                 .resizable()
@@ -105,7 +109,7 @@ struct ChallengeCardView: View {
             VStack(spacing: 16) {
                 Text(card.title)
                     .font(.system(size: 26, weight: .bold))
-                    .foregroundColor(.black)
+                    .foregroundColor(Color(.label))
                     .padding(.top, 40)
                     .padding(.horizontal, 20)
                     .multilineTextAlignment(.center)
@@ -113,7 +117,7 @@ struct ChallengeCardView: View {
                 
                 Text(card.description)
                     .font(.system(size: 20, weight: .medium))
-                    .foregroundColor(.black.opacity(0.7))
+                    .foregroundColor(Color(.label).opacity(0.7))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 30)
 //                    .lineLimit(3)

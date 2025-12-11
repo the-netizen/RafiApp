@@ -4,8 +4,10 @@ struct MainView: View {
     @EnvironmentObject var session: UserSession
     @StateObject var viewModel = MainViewViewModel()
     
-    @State private var selectedIcon: String = "iconGirl" // <-- Store selected icon
-    @State private var showPickIcon = false // <-- Control sheet presentation
+    // NEW: save selected icon & whether user picked before
+    @AppStorage("selectedIcon") private var selectedIcon: String = "iconGirl"
+    @AppStorage("hasPickedIcon") private var hasPickedIcon: Bool = false
+    @State private var showPickIcon = false
     
     var body: some View {
         NavigationStack(path: $viewModel.navigationPath) {
@@ -24,7 +26,7 @@ struct MainView: View {
                                 .padding(.trailing,24)
                                 .foregroundColor(.white)
                             
-                            Text("الاسم")
+                            Text("الاسم") // you can remove if you want
                                 .font(.title3)
                                 .foregroundColor(.white.opacity(0.9))
                                 .frame(maxWidth: .infinity, alignment: .trailing)
@@ -33,25 +35,26 @@ struct MainView: View {
                         
                         Spacer()
                         
-                        // Icon button
+                        // icon (NOW CLICKABLE)
                         Button {
-                            showPickIcon.toggle()
+                            showPickIcon = true
                         } label: {
                             ZStack{
                                 RoundedRectangle(cornerRadius: 35)
                                     .frame(width: 110, height: 110)
                                     .foregroundColor(.white)
                                 
-                                Image(selectedIcon) // <-- Use selected icon
+                                Image(selectedIcon)   // <-- now dynamic
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 90)
                             }
                         }
                         .buttonStyle(.plain)
-                    } //HStack header ends
+                    }
                     .padding(.horizontal, 24)
                     .padding(.top, 40)
+                    
                     
                     Rectangle()
                         .fill(Color.white.opacity(0.3))
@@ -75,19 +78,30 @@ struct MainView: View {
                             .buttonStyle(.plain)
                         }
                     }
-                } //VStack
-            } //ZStack
+                }
+            }
             .navigationDestination(for: MainCategory.self) { category in
                 CardView(viewModel: CardViewViewModel(category: category))
             }
-            .sheet(isPresented: $showPickIcon) {
-                PickIconView(selectedIcon: $selectedIcon) // <-- Pass binding
+            
+            // SHOW PICK ICON SHEET
+            .sheet(isPresented: $showPickIcon, onDismiss: {
+                hasPickedIcon = true
+            }) {
+                PickIconView(selectedIcon: $selectedIcon)
             }
-        } //NavigationStack
-    } //body
+            
+            // FIRST LAUNCH LOGIC
+            .onAppear {
+                if !hasPickedIcon {
+                    showPickIcon = true
+                }
+            }
+        }
+    }
 }
 
 #Preview {
-    return MainView()
+    MainView()
         .environment(\.locale, .init(identifier: "en"))
 }
