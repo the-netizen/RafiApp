@@ -1,28 +1,74 @@
 
-welcome_title = "你好!";
-choose_challenge = "Choose your challenge";
-start_button = "Start";
-home = "Home";
-outside = "Outside";
-journal = "Journal";
+"welcome_title" = "";
+"choose_challenge" = "";
+"start_button" = "";
+"home" = "";
+"outside" = "";
+"journal" = "";
 
 
-home_1_title = "";
-home_1_description = "";
-home_1_conditions = "";
+"home_1_title" = "";
+"home_1_description" = "";
+"home_1_conditions" = "";
 
-home_2_title = "";
-home_2_description = "";
-home_2_conditions = "";
+"home_2_title" = "";
+"home_2_description" = "";
+"home_2_conditions" = "";
 
-home_3_title = "";
-home_3_description = "";
-home_3_conditions = "";
+"home_3_title" = "";
+"home_3_description" = "";
+"home_3_conditions" = "";
 
-home_4_title = "";
-home_4_description = "";
-home_4_conditions = "";
+"home_4_title" = "";
+"home_4_description" = "";
+"home_4_conditions" = "";
 
-home_5_title = "";
-home_5_description = "";
-home_5_conditions = "";
+"home_5_title" = "";
+"home_5_description" = "";
+"home_5_conditions" = "";
+
+
+// outside ----------------------------------------
+"outside_1_title" = "";
+"outside_1_description" = "";
+"outside_1_conditions" = "";
+
+"outside_2_title" = "";
+"outside_2_description" = "";
+"outside_2_conditions" = "";
+
+"outside_3_title" = "";
+"outside_3_description" = "";
+"outside_3_conditions" = "";
+
+"outside_4_title" = "";
+"outside_4_description" = "";
+"outside_4_conditions" = "";
+
+"outside_5_title" = "";
+"outside_5_description" = "";
+"outside_5_conditions" = "";
+
+
+
+// leave journal empty
+"journal_1_title" = "";
+"journal_1_description" = "";
+"journal_1_conditions" = "";
+
+"journal_2_title" = "";
+"journal_2_description" = "";
+"journal_2_conditions" = "";
+
+"journal_3_title" = "";
+"journal_3_description" = "";
+"journal_3_conditions" = "";
+
+"journal_4_title" = "";
+"journal_4_description" = "";
+"journal_4_conditions" = "";
+
+"journal_5_title" = "";
+"journal_5_description" = "";
+"journal_5_conditions" = "";
+
