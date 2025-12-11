@@ -70,7 +70,7 @@ struct MainView: View {
                     VStack(spacing: 20) {
                         ForEach(viewModel.categories) { category in
                             Button {
-//                                print("Button tapped for category: \(category.rawValue)")
+                                // print("Button tapped for category: \(category.rawValue)")
                                 viewModel.navigateToCategory(category)
                             } label: {
                                 CategoryCardView(category: category)
@@ -83,7 +83,13 @@ struct MainView: View {
                 } //Vstack
             } //zstack
             .navigationDestination(for: MainCategory.self) { category in
-                CardView(viewModel: CardViewViewModel(category: category))
+                // 🔹 if Journal → go to JournalHistory
+                if category == .journal {
+                    JournalHistory()
+                } else {
+                    // 🔹 all other categories → go to CardView (same as before)
+                    CardView(viewModel: CardViewViewModel(category: category))
+                }
             }
         } //navigationStack
     } //body
@@ -97,4 +103,3 @@ struct MainView: View {
         .environment(\.locale, .init(identifier: "en"))
 
 }
-

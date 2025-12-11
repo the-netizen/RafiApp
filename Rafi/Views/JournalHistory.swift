@@ -11,15 +11,11 @@
 //
 
 import SwiftUI
+import Combine
 
 struct JournalHistory: View {
-    @State private var entries: [JournalEntry] = [
-        JournalEntry(title: "Morning Thoughts", date: Date(), heartLevel: 1),
-        JournalEntry(title: "Evening Reflection", date: Date().addingTimeInterval(-86400), heartLevel: 1),
-        JournalEntry(title: "Weekend Plans", date: Date().addingTimeInterval(-172800), heartLevel: 3),
-        JournalEntry(title: "Daily Goals", date: Date().addingTimeInterval(-259200), heartLevel: 2)
-    ]
-    
+    @StateObject private var viewModel = JournalHistoryViewModel()
+
     var body: some View {
         ZStack {
             Color("bluee")
@@ -28,11 +24,11 @@ struct JournalHistory: View {
             VStack(spacing: 25) {
                 // Header
                 headerView
-                
+
                 // THIN LINE BETWEEN TITLE BOX AND ENTRY CARDS
                 Rectangle()
                     .fill(Color.black.opacity(0.4))
-                    .frame(height: 0.5) // عرض الفريم
+                    .frame(height: 0.5)
                     .padding(.horizontal, 4)
                     .padding(.vertical, 5)
                 
@@ -40,7 +36,7 @@ struct JournalHistory: View {
                 
                 // Entry Cards
                 VStack(spacing: 16) {
-                    ForEach(entries) { entry in
+                    ForEach(viewModel.entries) { entry in
                         EntryCard(entry: entry)
                     }
                 }
@@ -48,7 +44,7 @@ struct JournalHistory: View {
                 
                 Spacer()
                 
-                // المايك
+                // Microphone
                 microphoneButton
                 
                 Spacer()
@@ -74,7 +70,6 @@ struct JournalHistory: View {
                 
                 Spacer()
                 
-            
                 Image("Book")
                     .resizable()
                     .scaledToFit()
@@ -100,9 +95,34 @@ struct JournalHistory: View {
         .padding(.horizontal, 30)
     }
     
+    // Optional smaller mic button variant (not used in body currently)
+    private var micButton: some View {
+        Button(action: {
+            viewModel.toggleRecording()
+        }) {
+            ZStack {
+                Circle()
+                    .fill(Color.white)
+                    .frame(width: 80, height: 80)
+                    .shadow(radius: 5)
+
+                Image(systemName: viewModel.isRecording ? "mic.fill" : "mic")
+                    .font(.system(size: 28))
+
+                if viewModel.isRecording {
+                    Circle()
+                        .fill(Color.red)
+                        .frame(width: 12, height: 12)
+                        .offset(x: 28, y: -28)
+                }
+            }
+        }
+        .padding(.bottom, 24)
+    }
+
     private var microphoneButton: some View {
         Button(action: {
-            // Recording action
+            viewModel.toggleRecording()
         }) {
             ZStack {
                 Circle()
@@ -114,13 +134,24 @@ struct JournalHistory: View {
                     )
                     .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 5)
                 
-                // Your custom mic image - BIGGER
-                Image("Mico")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 80, height: 80)
+                if viewModel.isRecording {
+                    Image(systemName: "mic.fill")
+                        .font(.system(size: 48, weight: .semibold))
+                        .foregroundColor(.black)
+                    
+                    Circle()
+                        .fill(Color.red)
+                        .frame(width: 16, height: 16)
+                        .offset(x: 40, y: -40)
+                } else {
+                    Image("Mico")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 80, height: 80)
+                }
             }
         }
+        .padding(.bottom, 24)
     }
 }
 
@@ -142,7 +173,6 @@ struct EntryCard: View {
             
             Spacer()
             
-            // Your custom heart images based on level
             Image(entry.heartImageName)
                 .resizable()
                 .scaledToFit()
