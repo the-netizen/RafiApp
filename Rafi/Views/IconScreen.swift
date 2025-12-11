@@ -7,8 +7,8 @@ struct PickIconView: View {
     ]
     
     @Environment(\.dismiss) private var dismiss
-    @Binding var selectedIcon: String // <-- Binding from MainView
-    
+    @Binding var selectedIcon: String
+
     var body: some View {
         ZStack {
             Color(red: 0.73, green: 0.88, blue: 0.89)
@@ -17,13 +17,11 @@ struct PickIconView: View {
             VStack {
                 Spacer()
                 
-                // Title
                 Text("Pick an Icon")
                     .font(.system(size: 26))
                 
                 Spacer()
                 
-                // Grid
                 LazyVGrid(
                     columns: [
                         GridItem(.flexible(), spacing: 20),
@@ -33,8 +31,8 @@ struct PickIconView: View {
                 ) {
                     ForEach(icons, id: \.self) { icon in
                         Button {
-                            selectedIcon = icon // Update MainView icon
-                            dismiss() // Close sheet
+                            selectedIcon = icon
+                            dismiss()
                         } label: {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 20)
@@ -55,10 +53,7 @@ struct PickIconView: View {
                 
                 Spacer()
                 
-                // Optional: keep this button if you want a confirmation instead of tap-to-select
-                Button(action: {
-                    dismiss()
-                }) {
+                Button(action: { dismiss() }) {
                     Text("دخول")
                         .foregroundColor(.white)
                         .font(.system(size: 18, weight: .medium))
