@@ -23,11 +23,11 @@ struct MainView: View {
                                 .padding(.trailing,24)
                                 .foregroundColor(.white)
                             
-                            Text("الاسم") // remove ?
-                                .font(.title3)
-                                .foregroundColor(.white.opacity(0.9))
-                                .frame(maxWidth: .infinity, alignment: .trailing)
-                                .padding(.trailing, 24)
+//                            Text("الاسم") // remove ?
+//                                .font(.title3)
+//                                .foregroundColor(.white.opacity(0.9))
+//                                .frame(maxWidth: .infinity, alignment: .trailing)
+//                                .padding(.trailing, 24)
                         }
                         
                         Spacer()
@@ -36,13 +36,18 @@ struct MainView: View {
                         ZStack{
                             RoundedRectangle(cornerRadius: 35)
                                 .frame(width: 110, height: 110)
-                                .foregroundColor(.white)
+                                .foregroundColor(Color(.white).opacity(0.5))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 28)
+                                        .stroke(Color(.secondaryLabel), lineWidth: 4)
+                                )
                             
                             // chosen image will become the icon
                             Image("iconGirl")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 90)
+                            
                         }
                         
                     } //Hstack header ends
@@ -69,7 +74,8 @@ struct MainView: View {
                                 viewModel.navigateToCategory(category)
                             } label: {
                                 CategoryCardView(category: category)
-                                
+                                    .padding(.top, 20)
+//                                    .padding(.bottom, 10)
                             }
                             .buttonStyle(.plain)
                         }

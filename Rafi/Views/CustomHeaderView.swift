@@ -45,7 +45,7 @@ struct CustomHeaderView: View {
                     
                     Text(title)
                         .font(.system(size: 25, weight: .medium))
-                        .foregroundColor(.black)
+                        .foregroundColor(Color(.label))
                     
                     //                        .padding(.trailing, -50)
                     
@@ -54,10 +54,10 @@ struct CustomHeaderView: View {
             }
                 .padding(.horizontal, 20)
                 .frame(maxWidth: .infinity, minHeight: 95)
-                .background(Color.white)
+                .background(Color(.systemBackground))
                 .overlay(
                     RoundedRectangle(cornerRadius: 28)
-                        .stroke(Color.white, lineWidth: 4)
+                        .stroke(Color(.secondaryLabel), lineWidth: 8)
                 )
                 .clipShape(RoundedRectangle(cornerRadius: 28))
                 .padding(.top, 40)
