@@ -69,6 +69,7 @@ struct MainView: View {
                                 viewModel.navigateToCategory(category)
                             } label: {
                                 CategoryCardView(category: category)
+                                
                             }
                             .buttonStyle(.plain)
                         }
