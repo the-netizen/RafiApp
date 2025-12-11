@@ -9,24 +9,36 @@ import Foundation
 import Combine
 
 class JournalHistoryViewModel: ObservableObject {
+    
 
-    // MARK: - Published data for the View
+    // 🔹 Entries shown in the list
     @Published var entries: [JournalEntry] = [
-        JournalEntry(title: "Morning Thoughts", date: Date(), heartLevel: 1),
-        JournalEntry(title: "Evening Reflection", date: Date().addingTimeInterval(-86400), heartLevel: 1),
-        JournalEntry(title: "Weekend Plans", date: Date().addingTimeInterval(-172800), heartLevel: 3),
-        JournalEntry(title: "Daily Goals", date: Date().addingTimeInterval(-259200), heartLevel: 2)
+        JournalEntry(title: "Morning Thoughts",
+                     date: Date(),
+                     heartLevel: 1,
+                     audioURL: nil),
+        JournalEntry(title: "Evening Reflection",
+                     date: Date().addingTimeInterval(-86400),
+                     heartLevel: 1,
+                     audioURL: nil),
+        JournalEntry(title: "Weekend Plans",
+                     date: Date().addingTimeInterval(-172800),
+                     heartLevel: 3,
+                     audioURL: nil),
+        JournalEntry(title: "Daily Goals",
+                     date: Date().addingTimeInterval(-259200),
+                     heartLevel: 2,
+                     audioURL: nil)
     ]
 
     @Published var isRecording: Bool = false
 
-    // MARK: - Private service
     private let recorder = AudioRecorderService()
 
-    // MARK: - Recording API for the View
-    func toggleRecording() {
+    /// Called when user taps the mic button
+    func toggleRecordingAndMaybeCreateEntry() {
         if isRecording {
-            stopRecording()
+            stopRecordingAndCreateEntry()
         } else {
             startRecording()
         }
@@ -34,11 +46,28 @@ class JournalHistoryViewModel: ObservableObject {
 
     private func startRecording() {
         recorder.startRecording()
-        isRecording = true      // rely on our own flag for UI
+        isRecording = true
     }
 
-    private func stopRecording() {
-        recorder.stopRecording()
+    private func stopRecordingAndCreateEntry() {
+        if let url = recorder.stopRecording() {
+            let newEntry = JournalEntry(
+                title: defaultTitleForNewEntry(),  // 🔹 auto title for now
+                date: Date(),
+                heartLevel: 1,
+                audioURL: url
+            )
+
+            // put newest on top
+            entries.insert(newEntry, at: 0)
+        }
         isRecording = false
+    }
+
+    private func defaultTitleForNewEntry() -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        return "Recording \(formatter.string(from: Date()))"
     }
 }
