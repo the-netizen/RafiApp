@@ -36,7 +36,7 @@ struct PickIconView: View {
                         } label: {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 20)
-                                    .fill(Color(.systemBackground))
+                                    .fill(Color(.systemBackground).opacity(0.3))
                                     .frame(width: 120, height: 120)
                                     .shadow(color: .black.opacity(0.15), radius: 4)
                                 
