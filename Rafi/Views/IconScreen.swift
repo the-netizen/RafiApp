@@ -1,7 +1,73 @@
-//
-//  IconScreen.swift
-//  Rafi
-//
-//  Created by Huda Chishtee on 11/12/2025.
-//
+import SwiftUI
 
+struct PickIconView: View {
+    
+    let icons = [
+        "iconGirlHat", "iconBoy", "iconBoyGlasses",
+        "iconGirl", "iconBoyOld", "iconGirlOrange"
+    ]
+    
+    @Environment(\.dismiss) private var dismiss
+    
+    var body: some View {
+        ZStack {
+            // Background
+            Color(red: 0.73, green: 0.88, blue: 0.89)
+                .ignoresSafeArea()
+            
+            VStack {
+                Spacer()
+                // Top bar
+                
+                // Title
+                Text("Pick an Icon")
+                    .font(.system(size: 26, ))
+                
+                Spacer()
+                
+                // Grid
+                LazyVGrid(
+                    columns: [
+                        GridItem(.flexible(), spacing: 20),
+                        GridItem(.flexible(), spacing: 20)
+                    ],
+                    spacing: 25
+                ) {
+                    ForEach(icons, id: \.self) { icon in
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(Color.white)
+                                .frame(width: 120, height: 120)
+                                .shadow(color: .black.opacity(0.15), radius: 4)
+                            
+                            Image(icon)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 80, height: 80)
+                        }
+                    }
+                }
+                .padding(.horizontal, 45)
+                
+                Spacer()
+                
+                // Button
+                Button(action: {}) {
+                    Text("دخول")
+                        .foregroundColor(.white)
+                        .font(.system(size: 18, weight: .medium))
+                        .frame(width: 150, height: 50)
+                        .background(Color.orange)
+                        .cornerRadius(14)
+                }
+                .padding(.bottom, 80)
+            }
+        }
+    }
+}
+
+struct PickIconView_Previews: PreviewProvider {
+    static var previews: some View {
+        PickIconView()
+    }
+}

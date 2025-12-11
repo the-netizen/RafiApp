@@ -8,7 +8,7 @@ struct RafiApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack{
-                MainView()
+                SplashViewBounce()
                     .environmentObject(session)
             }
         }
