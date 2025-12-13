@@ -26,7 +26,11 @@ struct MainView: View {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 35)
                                     .frame(width: 110, height: 110)
-                                    .foregroundColor(.white)
+                                    .foregroundColor(Color(.systemBackground).opacity(0.2))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 28)
+                                            .stroke(Color(.systemBackground), lineWidth: 4)
+                                    )
 
                                 Image(selectedIcon)   // <-- now dynamic
                                     .resizable()
