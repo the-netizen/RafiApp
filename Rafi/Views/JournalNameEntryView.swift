@@ -11,112 +11,86 @@ struct JournalNameEntryView: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var title: String = ""
-    @State private var heartLevel: Int = 3   // default middle heart (3/5)
+    @State private var rating: Int = 3 // 1...5
 
-    /// Called when user taps Add
-    let onAdd: (String, Int) -> Void
-
-    /// Called when user taps Cancel
-    let onCancel: () -> Void
+    var onAdd: (_ title: String, _ rating: Int) -> Void
 
     var body: some View {
-        VStack(spacing: 24) {
-
-            // drag indicator
-            Capsule()
-                .fill(Color.gray.opacity(0.4))
-                .frame(width: 60, height: 5)
-                .padding(.top, 8)
-
+        VStack(spacing: 18) {
             Text("Name your recording")
-                .font(.system(size: 20, weight: .semibold))
+                .font(.system(size: 22, weight: .semibold))
+                .padding(.top, 18)
 
-            // ---------- TEXT FIELD ----------
             TextField("Type something", text: $title)
-                .padding(.horizontal, 18)
-                .padding(.vertical, 14)
+                .padding()
                 .background(
-                    RoundedRectangle(cornerRadius: 24)
-                        .stroke(Color.black.opacity(0.25), lineWidth: 1.2)
+                    RoundedRectangle(cornerRadius: 22)
+                        .stroke(Color.gray.opacity(0.3), lineWidth: 1)
                 )
-                .padding(.horizontal, 32)
+                .padding(.horizontal, 24)
 
-            // ---------- HEART RATING ----------
-            HStack(spacing: 16) {
-                ForEach(1...5, id: \.self) { level in
-                    Button {
-                        heartLevel = level
-                    } label: {
-                        Image(imageName(for: level))
-                            .resizable()
-                            .interpolation(.none)       // keep pixel look
-                            .scaledToFit()
-                            .frame(width: 30, height: 30)
-                    }
-                }
-            }
-            .padding(.horizontal, 18)
-            .padding(.vertical, 10)
-            .background(
-                RoundedRectangle(cornerRadius: 24)
-                    .stroke(Color.black.opacity(0.25), lineWidth: 1.2)
-            )
-            .padding(.horizontal, 32)
+            // ✅ hearts rating (نفس شكل المثال)
+            HeartsRatingView(rating: $rating)
+                .padding(.top, 6)
 
-            // If you want to show duration later, put it here:
-            // Text("13:00")
-            //    .font(.system(size: 22, weight: .medium))
-
-            // ---------- ADD BUTTON ----------
             Button {
-                onAdd(title.isEmpty ? "Untitled recording" : title, heartLevel)
+                onAdd(title, rating)
                 dismiss()
             } label: {
                 Text("Add")
                     .foregroundColor(.white)
-                    .font(.system(size: 17, weight: .semibold))
+                    .font(.system(size: 18, weight: .semibold))
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, 12)
-                    .background(
-                        RoundedRectangle(cornerRadius: 24)
-                            .fill(Color("buttonColor")) // use your orange asset
-                    )
-                    .padding(.horizontal, 80)
-                    .shadow(color: .black.opacity(0.15),
-                            radius: 4, x: 0, y: 3)
+                    .padding(.vertical, 16)
+                    .background(Color("buttonColor"))
+                    .clipShape(RoundedRectangle(cornerRadius: 22))
+                    .shadow(radius: 5)
             }
+            .padding(.horizontal, 24)
+            .padding(.top, 8)
 
-            Button("Cancel", role: .cancel) {
-                onCancel()
-                dismiss()
-            }
-            .font(.system(size: 16))
-            .padding(.top, 2)
-
-            Spacer()
+            Button("Cancel") { dismiss() }
+                .foregroundColor(.blue)
+                .padding(.bottom, 18)
         }
-        .padding(.bottom, 24)
+        .presentationDetents([.medium]) // ✅ “نص الشاشة”
+        .presentationDragIndicator(.visible)
+    }
+}
+
+struct HeartsRatingView: View {
+    @Binding var rating: Int
+
+    var body: some View {
+        HStack(spacing: 16) {
+            ForEach(1...5, id: \.self) { i in
+                Button {
+                    rating = i
+                } label: {
+                    Image(heartAsset(for: i))
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 34, height: 34) // ✅ حجم القلوب (مو عريض)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(.vertical, 14)
+        .padding(.horizontal, 18)
+        .background(
+            RoundedRectangle(cornerRadius: 22)
+                .stroke(Color.black, lineWidth: 2)
+                .background(Color.white.opacity(0.001))
+        )
     }
 
-    // MARK: - Hearts mapping
-
-    /// Decide which image to show for each heart position
-    private func imageName(for level: Int) -> String {
-        // You can adjust this mapping to your taste using:
-        // "Fullheart", "Midheart", "heart3", "heart4"
-        if level <= heartLevel {
-            // selected hearts
-            switch heartLevel {
-            case 1, 2:
-                return "heart3"     // softer fill when low rating
-            case 3:
-                return "Midheart"   // middle pixel heart
-            default:
-                return "Fullheart"  // strong red when high rating
-            }
-        } else {
-            // unselected (outline) heart
-            return "heart4"
-        }
+    private func heartAsset(for index: Int) -> String {
+        // عدّلي أسماء الأصول حسب اللي عندك:
+        // empty: heart3
+        // mid: Midheart
+        // full: Fullheart
+        if index < rating { return "Fullheart" }
+        if index == rating { return "Midheart" }   // أو Fullheart إذا تبينها كاملة
+        return "heart3"
     }
 }

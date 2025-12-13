@@ -11,168 +11,126 @@
 //
 
 internal import SwiftUI
+import AVFoundation
 
 struct JournalHistory: View {
     @Environment(\.dismiss) private var dismiss
-    @StateObject private var viewModel = JournalHistoryViewModel()
 
-    // State to present recording and naming flows
-    @State private var showRecording = false
-    @State private var pendingAudioURL: URL?
+    @StateObject private var store = VoiceNotesStore()
+
+    @State private var showRecorder = false
     @State private var showNameSheet = false
+    @State private var pendingURL: URL?
+
+    @State private var player: AVAudioPlayer?
 
     var body: some View {
-        ZStack(alignment: .bottom) {
-            Color("bluee")
-                .ignoresSafeArea()
+        ZStack {
+            Color("bgColor").ignoresSafeArea()
 
-            VStack(spacing: 16) {
+            VStack(spacing: 14) {
 
-                // MARK: - Header
-                headerView
+                HStack {
+                    Button { dismiss() } label: {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 18, weight: .bold))
+                            .foregroundColor(.black)
+                            .frame(width: 44, height: 44)
+                            .background(Color.white.opacity(0.9))
+                            .clipShape(Circle())
+                    }
+                    Spacer()
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 10)
 
-                // Thin line under header
+                Text("المدونة")
+                    .font(.system(size: 24, weight: .bold))
+                    .padding(.top, 6)
+
                 Rectangle()
                     .fill(Color.black.opacity(0.2))
-                    .frame(height: 0.5)
+                    .frame(height: 1)
                     .padding(.horizontal, 24)
 
-                // MARK: - Entries list
-                ScrollView(showsIndicators: false) {
-                    VStack(spacing: 16) {
-                        ForEach(viewModel.entries) { entry in
-                            JournalEntryRow(entry: entry)
+                ScrollView {
+                    VStack(spacing: 14) {
+                        ForEach(store.notes) { note in
+                            Button {
+                                play(note.fileURL)
+                            } label: {
+                                VStack(alignment: .leading, spacing: 6) {
+                                    Text(note.title)
+                                        .font(.system(size: 18, weight: .semibold))
+                                        .foregroundColor(.black)
+
+                                    Text(note.createdAt.formatted(date: .abbreviated, time: .shortened))
+                                        .font(.system(size: 14))
+                                        .foregroundColor(.gray)
+                                }
+                                .padding(18)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .background(Color.white.opacity(0.9))
+                                .clipShape(RoundedRectangle(cornerRadius: 22))
+                                .shadow(radius: 2)
+                                .padding(.horizontal, 24)
+                            }
+                            .buttonStyle(.plain)
                         }
                     }
-                    .padding(.horizontal, 24)
-                    .padding(.top, 8)
-                    .padding(.bottom, 96)   // space for mic button
+                    .padding(.top, 10)
                 }
-            }
 
-            // MARK: - Mic button
-            micButton
-                .padding(.bottom, 70)
-        }
-        .sheet(isPresented: $showNameSheet, onDismiss: {
-            // Clear pending URL after naming flow completes or is cancelled
-            pendingAudioURL = nil
-        }) {
-            JournalNameEntryView { title, heart in
-                // Add entry if we have an audio URL
-                if let url = pendingAudioURL {
-                    viewModel.addEntry(title: title, heartLevel: heart, audioURL: url)
-                } else {
-                    // Fallback: still add an entry without audio if desired
-                    viewModel.addEntry(title: title, heartLevel: heart, audioURL: nil)
+                Spacer()
+
+                // mic button
+                Button {
+                    showRecorder = true
+                } label: {
+                    Circle()
+                        .fill(Color.white.opacity(0.75))
+                        .frame(width: 92, height: 92)
+                        .overlay(
+                            Image("Mico")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 34, height: 34) // ✅ هنا حجم المايك
+                                .opacity(0.6)
+                        )
                 }
-            } onCancel: {
-                // User cancelled naming; do nothing
+                .padding(.bottom, 24)
             }
         }
-        .fullScreenCover(isPresented: $showRecording) {
+        .fullScreenCover(isPresented: $showRecorder) {
             JournalRecordingView { url in
-                // When recording finishes, store URL and show name sheet
-                pendingAudioURL = url
+                // بعد ما يوقف التسجيل
+                pendingURL = url
+                showRecorder = false
                 showNameSheet = true
             }
         }
-    }
-
-    // MARK: - Header view
-
-    private var headerView: some View {
-        HStack {
-            Button {
-                dismiss()
-            } label: {
-                ZStack {
-                    Circle()
-                        .fill(Color.white.opacity(0.9))
-                        .frame(width: 48, height: 48)
-
-                    Image(systemName: "chevron.left")
-                        .foregroundColor(.black)
-                        .font(.system(size: 20, weight: .medium))
+        .sheet(isPresented: $showNameSheet) {
+            JournalNameEntryView { name, rating in
+                // rating جاهز عندك (لو تبينه تخزينه بعد، نضيفه في VoiceNote)
+                if let url = pendingURL {
+                    store.add(title: name, recordedFileURL: url)
                 }
-            }
-
-            Spacer()
-
-            Text("المدونة") // "Journal"
-                .font(.system(size: 22, weight: .bold))
-                .foregroundColor(.black)
-
-            Spacer()
-
-            Image("journalIcon")        // your blue book asset name
-                .resizable()
-                .scaledToFit()
-                .frame(width: 32, height: 32)
-        }
-        .padding(.horizontal, 24)
-        .padding(.top, 16)
-    }
-
-    // MARK: - Mic button
-
-    private var micButton: some View {
-        Button(action: {
-            showRecording = true
-        }) {
-            ZStack {
-                Circle()
-                    .fill(Color.white)
-                    .frame(width: 90, height: 90)
-                    .shadow(radius: 6)
-
-                Image("Mico")
-                    .resizable()
-                    .renderingMode(.original)
-                    .scaledToFit()
-                    .frame(width: 40, height: 40)
+                pendingURL = nil
             }
         }
     }
-}
 
-// MARK: - Row view for each entry
+    private func play(_ url: URL) {
+        do {
+            let session = AVAudioSession.sharedInstance()
+            try session.setCategory(.playback, mode: .default)
+            try session.setActive(true)
 
-struct JournalEntryRow: View {
-    let entry: JournalEntry
-
-    private var dateText: String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .short
-        return formatter.string(from: entry.date)
-    }
-
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(entry.title)
-                    .font(.system(size: 18, weight: .semibold))
-                    .foregroundColor(.black)
-
-                Text(dateText)
-                    .font(.system(size: 13))
-                    .foregroundColor(.gray)
-            }
-
-            Spacer()
-
-            Image(entry.heartLevel > 1 ? "heartFullPixel" : "heartEmptyPixel")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 24, height: 24)
+            player = try AVAudioPlayer(contentsOf: url)
+            player?.prepareToPlay()
+            player?.play()
+        } catch {
+            print("Play error:", error.localizedDescription)
         }
-        .padding(.vertical, 14)
-        .padding(.horizontal, 18)
-        .background(
-            RoundedRectangle(cornerRadius: 24)
-                .fill(Color.white)
-                .shadow(color: Color.black.opacity(0.08), radius: 4, x: 0, y: 2)
-        )
     }
 }
