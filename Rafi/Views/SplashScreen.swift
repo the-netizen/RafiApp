@@ -9,12 +9,12 @@ struct SplashViewBounce: View {
             MainView() // Always behind the splash
 
             if showSplash {
-                Color(#colorLiteral(red: 0.694, green: 0.827, blue: 0.835, alpha: 1))
+                Color(.bg)
                     .ignoresSafeArea()
                     .overlay(
-                        VStack(spacing: 80) {
-                            Text("APPNAME")
-                                .font(.system(size: 36, weight: .bold))
+                        VStack(spacing: 50) {
+                            Text("TALQ")
+                                .font(.system(size: 40, weight: .bold))
                                 .foregroundColor(.white)
                                 .kerning(2)
 
