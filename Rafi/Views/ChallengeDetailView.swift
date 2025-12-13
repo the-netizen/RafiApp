@@ -32,7 +32,7 @@ struct ChallengeDetailView: View {
                     VStack {
                         
                         Text(card.title)
-                            .font(.system(size: 20, weight: .bold))
+                            .font(.system(size: 23, weight: .bold))
                             .foregroundColor(Color(.label))
                             .padding(.top, 20)
                             .multilineTextAlignment(.center)
@@ -52,7 +52,7 @@ struct ChallengeDetailView: View {
                         Button {
                             mainViewModel.navigationPath = NavigationPath()
                         } label: {
-                            Text("Back to main menu")
+                            Text("Back to menu")
                                 .font(.system(size: 18, weight: .semibold))
                                 .foregroundColor(.white)
                                 .padding(.horizontal, 20)

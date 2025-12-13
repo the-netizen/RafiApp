@@ -18,8 +18,9 @@ struct PickIconView: View {
                 Spacer()
                 
                 Text("Pick an Icon")
-                    .font(.system(size: 26))
-                
+                    .font(.system(size: 30, weight: .bold))
+                    .foregroundColor(.white)
+
                 Spacer()
                 
                 LazyVGrid(
@@ -35,15 +36,15 @@ struct PickIconView: View {
                             dismiss()
                         } label: {
                             ZStack {
-                                RoundedRectangle(cornerRadius: 20)
-                                    .fill(Color(.systemBackground).opacity(0.3))
+                                RoundedRectangle(cornerRadius: 30)
+                                    .foregroundColor(.white)
                                     .frame(width: 120, height: 120)
                                     .shadow(color: .black.opacity(0.15), radius: 4)
                                 
                                 Image(icon)
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 80, height: 80)
+                                    .frame(width: 120, height: 120)
                             }
                         }
                         .buttonStyle(.plain)
@@ -54,7 +55,7 @@ struct PickIconView: View {
                 Spacer()
                 
                 Button(action: { dismiss() }) {
-                    Text("دخول")
+                    Text("Enter")
                         .foregroundColor(.white)
                         .font(.system(size: 18, weight: .medium))
                         .frame(width: 150, height: 50)
