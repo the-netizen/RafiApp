@@ -3,6 +3,11 @@ internal import SwiftUI
 struct MainView: View {
     @EnvironmentObject var session: UserSession
     @StateObject var viewModel = MainViewViewModel()
+    
+    // NEW: save selected icon & whether user picked before
+    @AppStorage("selectedIcon") private var selectedIcon: String = "iconGirl"
+    @AppStorage("hasPickedIcon") private var hasPickedIcon: Bool = false
+    @State private var showPickIcon = false
 
     var body: some View {
         NavigationStack(path: $viewModel.navigationPath) {
@@ -14,36 +19,36 @@ struct MainView: View {
 
                     // HEADER
                     HStack {
+                        // icon (NOW CLICKABLE) - moved to left
+                        Button {
+                            showPickIcon = true
+                        } label: {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 35)
+                                    .frame(width: 110, height: 110)
+                                    .foregroundColor(.white)
+
+                                Image(selectedIcon)   // <-- now dynamic
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 120)
+                            }
+                        }
+                        .buttonStyle(.plain)
+                        
+                        Spacer()
+                        
                         VStack(alignment: .center, spacing: 6) {
                             Text("welcome_title")
                                 .font(.system(size: 28, weight: .bold))
-                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                .frame(maxWidth: .infinity, alignment:.leading)
                                 .padding(.trailing, 24)
                                 .foregroundColor(.white)
 
-                            Text("الاسم")
-                                .font(.title3)
-                                .foregroundColor(.white.opacity(0.9))
-                                .frame(maxWidth: .infinity, alignment: .trailing)
-                                .padding(.trailing, 24)
-                        }
-
-                        Spacer()
-
-                        // icon
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 35)
-                                .frame(width: 110, height: 110)
-                                .foregroundColor(.white)
-
-                            Image("iconGirl")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 90)
                         }
                     }
                     .padding(.horizontal, 24)
-                    .padding(.top, 40)
+                    .padding(.top, 60)
 
                     Rectangle()
                         .fill(Color.white.opacity(0.3))
@@ -57,7 +62,7 @@ struct MainView: View {
                         .padding(.top, 10)
 
                     // CATEGORY BUTTONS
-                    VStack(spacing: 20) {
+                    VStack(spacing: 29) {
                         ForEach(viewModel.categories) { category in
                             Button {
                                 viewModel.navigateToCategory(category)
@@ -81,6 +86,20 @@ struct MainView: View {
                 default:
                     // old card-stack flow for Home / Outside, etc.
                     CardView(viewModel: CardViewViewModel(category: category))
+                }
+            }
+            
+            // SHOW PICK ICON SHEET
+            .sheet(isPresented: $showPickIcon, onDismiss: {
+                hasPickedIcon = true
+            }) {
+                PickIconView(selectedIcon: $selectedIcon)
+            }
+            
+            // FIRST LAUNCH LOGIC
+            .onAppear {
+                if !hasPickedIcon {
+                    showPickIcon = true
                 }
             }
         }
