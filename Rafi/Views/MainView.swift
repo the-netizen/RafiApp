@@ -14,9 +14,9 @@ struct MainView: View {
             ZStack {
                 Color("bgColor")
                     .ignoresSafeArea()
-
+                
                 VStack(alignment: .center, spacing: 24) {
-
+                    
                     // HEADER
                     HStack {
                         // icon (NOW CLICKABLE) - moved to left
@@ -31,7 +31,7 @@ struct MainView: View {
                                         RoundedRectangle(cornerRadius: 28)
                                             .stroke(Color(.systemBackground), lineWidth: 4)
                                     )
-
+                                
                                 Image(selectedIcon)   // <-- now dynamic
                                     .resizable()
                                     .scaledToFit()
@@ -48,23 +48,23 @@ struct MainView: View {
                                 .frame(maxWidth: .infinity, alignment:.leading)
                                 .padding(.trailing, 24)
                                 .foregroundColor(.white)
-
+                            
                         }
                     }
                     .padding(.horizontal, 24)
                     .padding(.top, 60)
-
+                    
                     Rectangle()
                         .fill(Color.white.opacity(0.3))
                         .frame(height: 1)
                         .padding(.horizontal, 24)
-
+                    
                     // اختر تحديك
                     Text("choose_challenge")
                         .font(.system(size: 20, weight: .medium))
                         .foregroundColor(.white.opacity(0.9))
                         .padding(.top, 10)
-
+                    
                     // CATEGORY BUTTONS
                     VStack(spacing: 29) {
                         ForEach(viewModel.categories) { category in
@@ -76,7 +76,7 @@ struct MainView: View {
                             .buttonStyle(.plain)
                         }
                     }
-
+                    
                     Spacer()
                 }
             }
@@ -86,10 +86,11 @@ struct MainView: View {
                 case .journal:
                     // our new recording list screen
                     JournalHistory()
-
+                    
                 default:
                     // old card-stack flow for Home / Outside, etc.
                     CardView(viewModel: CardViewViewModel(category: category))
+                        .environmentObject(viewModel) // Pass the MainViewViewModel
                 }
             }
             

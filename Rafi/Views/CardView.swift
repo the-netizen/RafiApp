@@ -32,8 +32,14 @@ struct CardView: View {
         } //Zstack
         .navigationBarHidden(true) // cz we using custom header for navigation
         .navigationDestination(for: ChallengeCard.self) { card in
-            ChallengeDetailView(card: card, category: viewModel.category)
-                .environmentObject(mainViewModel)
+            ChallengeDetailView(
+                card: card, 
+                category: viewModel.category,
+                onBackToMainMenu: {
+                    // Reset the navigation path to go back to main menu
+                    mainViewModel.navigationPath = NavigationPath()
+                }
+            )
         }
     } //body
     

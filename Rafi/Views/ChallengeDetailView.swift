@@ -3,8 +3,8 @@ internal import SwiftUI
 struct ChallengeDetailView: View {
     let card: ChallengeCard
     let category: MainCategory
+    let onBackToMainMenu: () -> Void
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var mainViewModel: MainViewViewModel
     
     var body: some View {
         ZStack {
@@ -50,9 +50,9 @@ struct ChallengeDetailView: View {
                     
                         Spacer()
                         Button {
-                            mainViewModel.navigationPath = NavigationPath()
+                            onBackToMainMenu()
                         } label: {
-                            Text("Back to menu")
+                            Text("Back to Main Menu")
                                 .font(.system(size: 18, weight: .semibold))
                                 .foregroundColor(.white)
                                 .padding(.horizontal, 20)
@@ -108,10 +108,10 @@ struct ChallengeDetailView_Previews: PreviewProvider {
                     difficultyImageName: "skull_level1",
                     titleKey: "outside_1_title",
                     descriptionKey: "outside_1_description",
-                    conditionsKey: "outside_1_conditions")
-                , category: .outside
+                    conditionsKey: "outside_1_conditions"),
+                category: .outside,
+                onBackToMainMenu: { print("Back to main menu") }
             )
-            .environmentObject(MainViewViewModel())
         }
     }
 }
