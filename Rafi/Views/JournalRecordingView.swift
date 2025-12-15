@@ -9,115 +9,103 @@ internal import SwiftUI
 
 struct JournalRecordingView: View {
     @Environment(\.dismiss) private var dismiss
+
     @StateObject private var recorder = AudioRecorderService()
 
-    // لما يخلص تسجيل نرجع الـURL للشاشة اللي بعدها (التسمية)
-    var onFinish: (URL) -> Void
+    @State private var permissionDenied = false
+    @State private var currentFileName: String = AudioRecorderService.generateFileName()
+
+    let onFinished: (String, TimeInterval) -> Void
 
     var body: some View {
         ZStack {
             Color("bgColor").ignoresSafeArea()
 
-            VStack(spacing: 24) {
-                HStack {
-                    Button {
-                        if recorder.isRecording {
-                            _ = recorder.stopRecording() // discard URL here; this is just a back action
-                        } else {
-                            dismiss()
-                        }
-                    } label: {
-                        Image(systemName: "chevron.left")
-                            .font(.system(size: 18, weight: .bold))
-                            .foregroundColor(.black)
-                            .frame(width: 44, height: 44)
-                            .background(Color.white.opacity(0.9))
-                            .clipShape(Circle())
-                    }
-                    Spacer()
-                }
-                .padding(.horizontal, 24)
-                .padding(.top, 12)
+            VStack(spacing: 20) {
+                Spacer().frame(height: 40)
 
-                Spacer()
-
-                // “Voice memos” style waveform
-                WaveformView(level: recorder.meterLevel)
+                RoundedRectangle(cornerRadius: 24)
+                    .fill(Color.white.opacity(0.35))
                     .frame(height: 140)
-                    .padding(.horizontal, 24)
+                    .overlay(
+                        // “wave” بسيطة (مو تسجيل فعلي)
+                        HStack(spacing: 6) {
+                            ForEach(0..<18) { _ in
+                                RoundedRectangle(cornerRadius: 4)
+                                    .frame(width: 6, height: CGFloat.random(in: 30...110))
+                                    .opacity(recorder.isRecording ? 1 : 0.35)
+                            }
+                        }
+                        .padding(.horizontal, 18)
+                    )
+                    .padding(.horizontal, 28)
 
-                Text(timeString(recorder.elapsedTime))
-                    .font(.system(size: 28, weight: .semibold, design: .monospaced))
+                Text(timeString(recorder.elapsed))
+                    .font(.system(size: 34, weight: .semibold, design: .monospaced))
                     .foregroundColor(.black)
 
                 Spacer()
 
                 Button {
                     Task {
+                        let allowed = await recorder.requestPermission()
+                        if !allowed {
+                            permissionDenied = true
+                            return
+                        }
+
                         if recorder.isRecording {
-                            if let url = recorder.stopRecording() {
-                                onFinish(url)
-                            }
+                            recorder.stopRecording()
+                            let duration = recorder.elapsed
+                            let file = currentFileName
+                            // جهزي الملف القادم للتسجيل القادم
+                            currentFileName = AudioRecorderService.generateFileName()
+                            onFinished(file, duration)
+                            dismiss()
                         } else {
-                            await recorder.startRecording()
+                            do {
+                                try recorder.startRecording(fileName: currentFileName)
+                            } catch {
+                                // لو فشل لا تسوين crash
+                            }
                         }
                     }
                 } label: {
                     ZStack {
                         Circle()
-                            .fill(Color.white.opacity(0.9))
-                            .frame(width: 92, height: 92) // ✅ حجم الدائرة
+                            .fill(Color.white)
+                            .frame(width: 110, height: 110)
+                            .shadow(radius: 10)
 
                         Image("Mico")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 44, height: 44) // ✅ حجم الأيقونة (اقتراح ممتاز)
+                            .frame(width: 52, height: 52) // غيروه لي حجم المايك معرف مقاسه)
+                            .opacity(recorder.isRecording ? 0.9 : 1)
                     }
-                    .shadow(radius: 6)
                 }
-                .padding(.bottom, 28)
+                .padding(.bottom, 40)
 
-                if let msg = recorder.lastErrorMessage {
-                    Text(msg)
-                        .font(.footnote)
-                        .foregroundColor(.red)
-                        .padding(.bottom, 10)
+            }
+        }
+        .alert("Microphone permission is needed", isPresented: $permissionDenied) {
+            Button("OK", role: .cancel) {}
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button { dismiss() } label: {
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 18, weight: .semibold))
+                        .padding(14)
+                        .background(Circle().fill(Color.white.opacity(0.55)))
                 }
             }
         }
     }
 
     private func timeString(_ t: TimeInterval) -> String {
-        let total = Int(t)
-        let m = total / 60
-        let s = total % 60
+        let m = Int(t) / 60
+        let s = Int(t) % 60
         return String(format: "%02d:%02d", m, s)
-    }
-}
-
-// Simple animated bars
-struct WaveformView: View {
-    var level: Float // 0...1
-
-    var body: some View {
-        HStack(alignment: .center, spacing: 6) {
-            ForEach(0..<18, id: \.self) { i in
-                let base = CGFloat(10 + (i % 4) * 8)
-                let boost = CGFloat(level) * 80
-                RoundedRectangle(cornerRadius: 6)
-                    .fill(Color.white.opacity(0.9))
-                    .frame(width: 6, height: max(12, base + boost * randomFactor(i)))
-            }
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 16)
-        .background(Color.white.opacity(0.25))
-        .clipShape(RoundedRectangle(cornerRadius: 24))
-    }
-
-    private func randomFactor(_ i: Int) -> CGFloat {
-        // ثابت عشان ما “يرتعش” بشكل عشوائي
-        let factors: [CGFloat] = [0.35, 0.55, 0.8, 0.6, 0.95, 0.5, 0.75, 0.4, 0.9, 0.65, 0.85, 0.45, 0.7, 0.52, 0.88, 0.58, 0.78, 0.42]
-        return factors[i % factors.count]
     }
 }
