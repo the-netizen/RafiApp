@@ -6,40 +6,41 @@ struct SplashViewBounce: View {
 
     var body: some View {
         ZStack {
-            MainView() // Always behind the splash
+            Color("bgColor")
+                .ignoresSafeArea()
 
             if showSplash {
-                Color(.bg)
-                    .ignoresSafeArea()
-                    .overlay(
-                        VStack(spacing: 50) {
-                            Text("TALQ")
-                                .font(.system(size: 40, weight: .bold))
-                                .foregroundColor(.white)
-                                .kerning(2)
+                VStack(spacing: 50) {
+                    Text("TALEQ")
+                        .font(.system(size: 40, weight: .bold))
+                        .foregroundColor(.white)
+                        .kerning(2)
 
-                            Image("iconGirlHat")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 190)
-                                .offset(y: bounce ? -10 : 10)
-                                .onAppear {
-                                    withAnimation(Animation
-                                        .easeInOut(duration: 0.4)
-                                        .repeatForever(autoreverses: true)) {
-                                            bounce.toggle()
-                                    }
-                                }
-                        }
-                    )
-                    .transition(.opacity) // Smooth fade out
-                    .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                            withAnimation(.easeOut(duration: 0.5)) {
-                                showSplash = false
+                    Image("iconGirlHat")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 190)
+                        .offset(y: bounce ? -10 : 10)
+                        .onAppear {
+                            withAnimation(Animation
+                                .easeInOut(duration: 0.3)
+                                .repeatCount(30, autoreverses: true)) {
+                                    bounce.toggle()
                             }
                         }
+                }
+                .transition(.opacity)
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                        withAnimation(.easeOut(duration: 0.3)) {
+                            showSplash = false
+                        }
                     }
+                }
+            } else {
+                // Show main view after splash
+                MainView()
+                    .transition(.opacity)
             }
         }
     }
