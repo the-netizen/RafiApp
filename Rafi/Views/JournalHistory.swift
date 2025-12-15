@@ -11,126 +11,101 @@
 //
 
 internal import SwiftUI
-import AVFoundation
+import Combine
 
 struct JournalHistory: View {
     @Environment(\.dismiss) private var dismiss
 
-    @StateObject private var store = VoiceNotesStore()
+    @StateObject private var vm = JournalHistoryViewModel()
+    @StateObject private var player = AudioPlayerService()
 
     @State private var showRecorder = false
+    @State private var pendingFileName: String? = nil
     @State private var showNameSheet = false
-    @State private var pendingURL: URL?
-
-    @State private var player: AVAudioPlayer?
 
     var body: some View {
         ZStack {
             Color("bgColor").ignoresSafeArea()
 
-            VStack(spacing: 14) {
-
-                HStack {
-                    Button { dismiss() } label: {
-                        Image(systemName: "chevron.left")
-                            .font(.system(size: 18, weight: .bold))
-                            .foregroundColor(.black)
-                            .frame(width: 44, height: 44)
-                            .background(Color.white.opacity(0.9))
-                            .clipShape(Circle())
-                    }
-                    Spacer()
-                }
-                .padding(.horizontal, 24)
-                .padding(.top, 10)
-
-                Text("المدونة")
-                    .font(.system(size: 24, weight: .bold))
-                    .padding(.top, 6)
-
-                Rectangle()
-                    .fill(Color.black.opacity(0.2))
-                    .frame(height: 1)
-                    .padding(.horizontal, 24)
+            VStack(spacing: 16) {
+                header
 
                 ScrollView {
                     VStack(spacing: 14) {
-                        ForEach(store.notes) { note in
-                            Button {
-                                play(note.fileURL)
-                            } label: {
-                                VStack(alignment: .leading, spacing: 6) {
-                                    Text(note.title)
-                                        .font(.system(size: 18, weight: .semibold))
-                                        .foregroundColor(.black)
-
-                                    Text(note.createdAt.formatted(date: .abbreviated, time: .shortened))
-                                        .font(.system(size: 14))
-                                        .foregroundColor(.gray)
-                                }
-                                .padding(18)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .background(Color.white.opacity(0.9))
-                                .clipShape(RoundedRectangle(cornerRadius: 22))
-                                .shadow(radius: 2)
-                                .padding(.horizontal, 24)
+                        ForEach(vm.entries) { entry in
+                            JournalRowView(entry: entry) {
+                                guard !entry.audioFileName.isEmpty else { return }
+                                player.togglePlay(fileName: entry.audioFileName)
                             }
-                            .buttonStyle(.plain)
                         }
                     }
-                    .padding(.top, 10)
+                    .padding(.top, 4)
+                    .padding(.bottom, 140)
                 }
+            }
 
+            // زر المايك
+            VStack {
                 Spacer()
-
-                // mic button
                 Button {
                     showRecorder = true
                 } label: {
-                    Circle()
-                        .fill(Color.white.opacity(0.75))
-                        .frame(width: 92, height: 92)
-                        .overlay(
-                            Image("Mico")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 34, height: 34) // ✅ هنا حجم المايك
-                                .opacity(0.6)
-                        )
+                    ZStack {
+                        Circle()
+                            .fill(Color.white.opacity(0.85))
+                            .frame(width: 96, height: 96)
+                            .shadow(radius: 10)
+
+                        Image("Mico")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 46, height: 46)
+                    }
                 }
-                .padding(.bottom, 24)
+                .padding(.bottom, 18)
             }
         }
-        .fullScreenCover(isPresented: $showRecorder) {
-            JournalRecordingView { url in
-                // بعد ما يوقف التسجيل
-                pendingURL = url
-                showRecorder = false
+        .sheet(isPresented: $showRecorder) {
+            JournalRecordingView { fileName, _ in
+                // بعد التسجيل افتح sheet الاسم
+                pendingFileName = fileName
                 showNameSheet = true
             }
         }
         .sheet(isPresented: $showNameSheet) {
-            JournalNameEntryView { name, rating in
-                // rating جاهز عندك (لو تبينه تخزينه بعد، نضيفه في VoiceNote)
-                if let url = pendingURL {
-                    store.add(title: name, recordedFileURL: url)
+            if let pendingFileName {
+                JournalNameEntrySheet(audioFileName: pendingFileName) { title, rating, file in
+                    vm.addEntry(title: title, rating: rating, audioFileName: file)
+                    self.pendingFileName = nil
                 }
-                pendingURL = nil
             }
         }
     }
 
-    private func play(_ url: URL) {
-        do {
-            let session = AVAudioSession.sharedInstance()
-            try session.setCategory(.playback, mode: .default)
-            try session.setActive(true)
+    private var header: some View {
+        HStack {
+            Button { dismiss() } label: {
+                Image(systemName: "chevron.left")
+                    .foregroundColor(.gray)
+                    .padding(14)
+                    .background(Circle().fill(Color.white.opacity(0.55)))
+            }
 
-            player = try AVAudioPlayer(contentsOf: url)
-            player?.prepareToPlay()
-            player?.play()
-        } catch {
-            print("Play error:", error.localizedDescription)
+            Spacer()
+
+            Text("Journal")
+                .font(.system(size: 26, weight: .bold))
+
+            Spacer()
+
+            Image("journal_icon")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 34, height: 34)
+                .padding(10)
+                .background(Circle().fill(Color.white.opacity(0.55)))
         }
+        .padding(.horizontal, 18)
+        .padding(.top, 10)
     }
 }

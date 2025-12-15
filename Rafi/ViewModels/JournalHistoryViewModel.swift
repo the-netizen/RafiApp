@@ -5,48 +5,49 @@
 //  Created by Noor Alhassani on 20/06/1447 AH.
 //
 import Foundation
-import Combine
 internal import SwiftUI
+import Combine
 
-class JournalHistoryViewModel: ObservableObject {
+@MainActor
+final class JournalHistoryViewModel: ObservableObject {
+    @Published var entries: [JournalEntry] = []
 
-    // Entries shown in the list
-    @Published var entries: [JournalEntry] = JournalHistoryViewModel.sampleEntries
+    private let storage = JournalStorage()
 
-    // For now we do NOT load or save from disk.
-    // We just use sample data so the app is stable.
-
-    // MARK: - Add new entry from recording screen
-    func addEntry(title: String, heartLevel: Int, audioURL: URL?) {
-        let newEntry = JournalEntry(
-            title: title,
-            date: Date(),
-            heartLevel: heartLevel,
-            audioURL: audioURL
-        )
-
-        // newest at the top
-        entries.insert(newEntry, at: 0)
+    init() {
+        load()
+        if entries.isEmpty {
+            seedDemo()
+        }
     }
 
-    // Optional: later if you add swipe to delete
-    func deleteEntry(at offsets: IndexSet) {
-        entries.remove(atOffsets: offsets)
+    func load() {
+        entries = storage.load()
     }
 
-    // MARK: - Sample data (like before, so screen isn’t empty)
-    private static let sampleEntries: [JournalEntry] = [
-        JournalEntry(title: "Morning Thoughts",
-                     date: Date(),
-                     heartLevel: 1),
-        JournalEntry(title: "Evening Reflection",
-                     date: Date().addingTimeInterval(-86400),
-                     heartLevel: 1),
-        JournalEntry(title: "Weekend Plans",
-                     date: Date().addingTimeInterval(-172800),
-                     heartLevel: 3),
-        JournalEntry(title: "Daily Goals",
-                     date: Date().addingTimeInterval(-259200),
-                     heartLevel: 2)
-    ]
+    func save() {
+        storage.save(entries)
+    }
+
+    func addEntry(title: String, rating: Int, audioFileName: String) {
+        let new = JournalEntry(title: title, date: Date(), rating: rating, audioFileName: audioFileName)
+        entries.insert(new, at: 0)
+        save()
+    }
+
+    func updateRating(entryID: UUID, rating: Int) {
+        guard let idx = entries.firstIndex(where: { $0.id == entryID }) else { return }
+        entries[idx].rating = rating
+        save()
+    }
+
+    private func seedDemo() {
+        entries = [
+            JournalEntry(title: "Morning Thoughts", date: Date().addingTimeInterval(-86400), rating: 4, audioFileName: ""),
+            JournalEntry(title: "Evening Reflection", date: Date().addingTimeInterval(-172800), rating: 5, audioFileName: ""),
+            JournalEntry(title: "Weekend Plans", date: Date().addingTimeInterval(-259200), rating: 3, audioFileName: ""),
+            JournalEntry(title: "Daily Goals", date: Date().addingTimeInterval(-345600), rating: 2, audioFileName: "")
+        ]
+        save()
+    }
 }
