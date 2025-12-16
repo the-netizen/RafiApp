@@ -22,28 +22,24 @@ struct JournalRecordingView: View {
             Color("bgColor").ignoresSafeArea()
 
             VStack(spacing: 20) {
-//                Spacer().frame(height: 40)
-                Spacer()
-
-//                RoundedRectangle(cornerRadius: 24)
-//                    .fill(Color.white.opacity(0.35))
-//                    .frame(height: 140)
-//                    .overlay(
-                        // “wave” بسيطة (مو تسجيل فعلي)
-                        HStack(spacing: 6) {
-                            ForEach(0..<18) { _ in
-                                RoundedRectangle(cornerRadius: 4)
-                                    .frame(width: 6, height: CGFloat.random(in: 30...110))
-                                    .opacity(recorder.isRecording ? 1 : 0.35)
-                            }
-                        }
-                        .padding(.horizontal, 18)
-//                    )
-                    .padding(.horizontal, 28)
+                Spacer().frame(height: 40)
 
                 Text(timeString(recorder.elapsed))
                     .font(.system(size: 34, weight: .semibold, design: .monospaced))
                     .foregroundColor(Color(.label))
+                Spacer()
+                
+                HStack(spacing: 8) {
+                    ForEach(0..<25) { _ in
+                        RoundedRectangle(cornerRadius: 4)
+                            .frame(width: 6, height: CGFloat.random(in: 60...300))
+                            .opacity(recorder.isRecording ? 1 : 0.35)
+                    }
+                }
+                .frame(height: 300) // Fixed height to prevent layout shifts
+//                .padding(.horizontal, 18)
+//                .padding(.horizontal, 28)
+
 
                 Spacer()
 
