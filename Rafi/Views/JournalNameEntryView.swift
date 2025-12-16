@@ -10,7 +10,7 @@ struct JournalNameEntrySheet: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var title: String = ""
-    @State private var rating: Int = 3
+    @State private var rating: Int = 1 // Changed from 3 to 1 to start with heart100
 
     let audioFileName: String
     let onAdd: (String, Int, String) -> Void
@@ -29,17 +29,9 @@ struct JournalNameEntrySheet: View {
                 .padding()
                 .background(RoundedRectangle(cornerRadius: 16).stroke(Color.gray.opacity(0.3), lineWidth: 1))
 
-            // تصميم الروز
-            HStack(spacing: 10) {
-                ForEach(1...5, id: \.self) { i in
-                    Image(i <= rating ? "Fullheart" : "Midheart")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 36, height: 36)
-                        .onTapGesture { rating = i }
-                }
-            }
-            .padding(.vertical, 8)
+            // Heart Rating with sliding orb
+            HeartRatingView(rating: $rating, size: 50)
+                .padding(.vertical, 16)
 
             Button {
                 let finalTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)

@@ -14,12 +14,15 @@ struct JournalRowView: View {
     var body: some View {
         Button(action: onTap) {
             HStack {
-                // ✅ Hearts on the LEFT
-                Image(entry.rating >= 4 ? "Fullheart" : "Midheart")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 26, height: 26)
-                    .padding(.leading, 12)
+                // Static heart display showing the rating
+                VStack {
+                    Image(heartImageForRating(entry.rating))
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 26, height: 26)
+                }
+                .frame(width: 40) // Fixed width to prevent layout jumping
+                .padding(.leading, 12)
 
                 VStack(alignment: .leading, spacing: 6) {
                     Text(entry.title)
@@ -44,5 +47,16 @@ struct JournalRowView: View {
             .padding(.horizontal, 18)
         }
         .buttonStyle(.plain)
+    }
+    
+    private func heartImageForRating(_ rating: Int) -> String {
+        switch rating {
+        case 1: return "heart100"  // Most filled
+        case 2: return "heart75"   
+        case 3: return "heart50"   
+        case 4: return "heart25"   
+        case 5: return "heart0"    // Empty
+        default: return "heart0"
+        }
     }
 }

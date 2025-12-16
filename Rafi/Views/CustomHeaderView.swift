@@ -19,19 +19,19 @@ struct CustomHeaderView: View {
                 Button(action: {
                     onBack()
                 }) {
-                    ZStack{
-                        Circle()
+//                    ZStack{
+//                        Circle()
 //                            .background(.backButton)
-                            .foregroundColor(.backButton)
+//                            .foregroundColor(.backButton)
 //                            .clipShape(Circle())
-                            .frame(width: 40)
+//                            .frame(width: 40)
                         
                         Image(systemName: "chevron.backward")
                             .font(.system(size: 30))
                             .foregroundColor(.white)
                             .clipShape(Circle())
                             .padding(10)
-                    }
+//                    }
                 }
                 
                 Spacer()

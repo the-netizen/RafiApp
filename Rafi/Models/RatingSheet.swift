@@ -34,15 +34,9 @@ struct RatingSheet: View {
                 .cornerRadius(22)
                 .padding(.horizontal, 20)
 
-            // ✅ قلوب مثل تصميمك (اختاري أسماء الأصول عندك)
-            HStack(spacing: 18) {
-                heartButton(level: 0, asset: "heart4")   // عدّلي لو عندك قلب فاضي
-                heartButton(level: 1, asset: "heart4")
-                heartButton(level: 2, asset: "heart3")
-                heartButton(level: 3, asset: "Midheart")
-                heartButton(level: 4, asset: "Fullheart")
-            }
-            .padding(.vertical, 6)
+            // Heart Rating with sliding orb
+            HeartRatingView(rating: $rating, size: 34)
+                .padding(.vertical, 16)
 
             Button(action: onAdd) {
                 Text("Add")
@@ -65,18 +59,5 @@ struct RatingSheet: View {
         .presentationDetents([.medium]) // ✅ يطلع نص الشاشة
         .presentationDragIndicator(.visible)
         .background(Color.white)
-    }
-
-    private func heartButton(level: Int, asset: String) -> some View {
-        Button {
-            rating = level
-        } label: {
-            Image(asset)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 34, height: 34) // حجم القلب داخل السطر
-                .opacity(rating == level ? 1.0 : 0.55)
-        }
-        .buttonStyle(.plain)
     }
 }

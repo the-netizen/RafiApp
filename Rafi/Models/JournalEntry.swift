@@ -14,7 +14,7 @@ struct JournalEntry: Identifiable, Codable, Equatable {
     init(id: UUID = UUID(),
          title: String,
          date: Date = Date(),
-         rating: Int = 0,
+         rating: Int = 1, // Changed default from 0 to 1 to match new 1-5 range
          audioFileName: String = "") {
         self.id = id
         self.title = title
