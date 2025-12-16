@@ -22,12 +22,13 @@ struct JournalRecordingView: View {
             Color("bgColor").ignoresSafeArea()
 
             VStack(spacing: 20) {
-                Spacer().frame(height: 40)
+//                Spacer().frame(height: 40)
+                Spacer()
 
-                RoundedRectangle(cornerRadius: 24)
-                    .fill(Color.white.opacity(0.35))
-                    .frame(height: 140)
-                    .overlay(
+//                RoundedRectangle(cornerRadius: 24)
+//                    .fill(Color.white.opacity(0.35))
+//                    .frame(height: 140)
+//                    .overlay(
                         // “wave” بسيطة (مو تسجيل فعلي)
                         HStack(spacing: 6) {
                             ForEach(0..<18) { _ in
@@ -37,12 +38,12 @@ struct JournalRecordingView: View {
                             }
                         }
                         .padding(.horizontal, 18)
-                    )
+//                    )
                     .padding(.horizontal, 28)
 
                 Text(timeString(recorder.elapsed))
                     .font(.system(size: 34, weight: .semibold, design: .monospaced))
-                    .foregroundColor(.black)
+                    .foregroundColor(Color(.label))
 
                 Spacer()
 
@@ -93,19 +94,9 @@ struct JournalRecordingView: View {
                 .padding(.bottom, 40)
 
             }
-        }
+        } //Zstack
         .alert("Microphone permission is needed", isPresented: $permissionDenied) {
             Button("OK", role: .cancel) {}
-        }
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button { dismiss() } label: {
-                    Image(systemName: "chevron.left")
-                        .font(.system(size: 18, weight: .semibold))
-                        .padding(14)
-                        .background(Circle().fill(Color.white.opacity(0.55)))
-                }
-            }
         }
     }
 

@@ -33,7 +33,7 @@ struct JournalHistory: View {
             Color("bgColor").ignoresSafeArea()
 
             VStack(spacing: 16) {
-                header
+                customHeader
 
                 ScrollView {
                     VStack(spacing: 14) {
@@ -70,6 +70,7 @@ struct JournalHistory: View {
                 .padding(.bottom, 18)
             }
         }
+        .navigationBarHidden(true)
         .sheet(isPresented: $showRecorder) {
             JournalRecordingView { fileName, _ in
                 // بعد التسجيل افتح sheet الاسم
@@ -85,6 +86,15 @@ struct JournalHistory: View {
                 pendingFileName = nil
             }
         }
+    }
+
+    private var customHeader: some View {
+        CustomHeaderView(
+            title: "Journal",
+            iconName: "journal_icon",
+            onBack: { dismiss() }
+        )
+        .frame(height: 170)
     }
 
     private var header: some View {
