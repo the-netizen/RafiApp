@@ -10,9 +10,22 @@
 		F3DF4A992EDDB73800946D00 /* Rafi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rafi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		F34B77C82EF126BF00C40F3E /* Exceptions for "Rafi" folder in "Rafi" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = F3DF4A462EDC90A400946D00 /* Rafi */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		F3DF4A492EDC90A400946D00 /* Rafi */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F34B77C82EF126BF00C40F3E /* Exceptions for "Rafi" folder in "Rafi" target */,
+			);
 			path = Rafi;
 			sourceTree = "<group>";
 		};
@@ -251,7 +264,8 @@
 				DEVELOPMENT_TEAM = AM397T2P7A;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "";
+				INFOPLIST_FILE = Rafi/Info.plist;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need microphone access to record your journal audio.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -282,10 +296,11 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = AM397T2P7A;
+				DEVELOPMENT_TEAM = UR2GTWY975;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "";
+				INFOPLIST_FILE = Rafi/Info.plist;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need microphone access to record your journal audio.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

@@ -60,8 +60,14 @@ struct JournalRecordingView: View {
                             let file = currentFileName
                             // جهزي الملف القادم للتسجيل القادم
                             currentFileName = AudioRecorderService.generateFileName()
-                            onFinished(file, duration)
+                            
+                            // Dismiss first, then call onFinished
                             dismiss()
+                            
+                            // Small delay to ensure smooth transition
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                onFinished(file, duration)
+                            }
                         } else {
                             do {
                                 try recorder.startRecording(fileName: currentFileName)

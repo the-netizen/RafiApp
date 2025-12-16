@@ -13,6 +13,12 @@
 internal import SwiftUI
 import Combine
 
+// Helper struct for sheet presentation
+private struct PendingEntry: Identifiable {
+    let id = UUID()
+    let fileName: String
+}
+
 struct JournalHistory: View {
     @Environment(\.dismiss) private var dismiss
 
@@ -21,7 +27,6 @@ struct JournalHistory: View {
 
     @State private var showRecorder = false
     @State private var pendingFileName: String? = nil
-    @State private var showNameSheet = false
 
     var body: some View {
         ZStack {
@@ -69,15 +74,15 @@ struct JournalHistory: View {
             JournalRecordingView { fileName, _ in
                 // بعد التسجيل افتح sheet الاسم
                 pendingFileName = fileName
-                showNameSheet = true
             }
         }
-        .sheet(isPresented: $showNameSheet) {
-            if let pendingFileName {
-                JournalNameEntrySheet(audioFileName: pendingFileName) { title, rating, file in
-                    vm.addEntry(title: title, rating: rating, audioFileName: file)
-                    self.pendingFileName = nil
-                }
+        .sheet(item: Binding<PendingEntry?>(
+            get: { pendingFileName.map { PendingEntry(fileName: $0) } },
+            set: { _ in pendingFileName = nil }
+        )) { pending in
+            JournalNameEntrySheet(audioFileName: pending.fileName) { title, rating, file in
+                vm.addEntry(title: title, rating: rating, audioFileName: file)
+                pendingFileName = nil
             }
         }
     }
