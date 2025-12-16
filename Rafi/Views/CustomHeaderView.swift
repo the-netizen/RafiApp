@@ -34,14 +34,14 @@ struct CustomHeaderView: View {
 //                    }
                 }
                 
-                Spacer()
+                Spacer().frame(width: 25)
                 
                 // title + icon
-                HStack(spacing: 20) {
-//                    Image(iconName)
-//                        .resizable()
-//                        .scaledToFit()
-//                        .frame(height: 40)
+                HStack(spacing: 25) {
+                    Image(iconName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 40)
                     
                     Text(title)
                         .font(.system(size: 25, weight: .medium))

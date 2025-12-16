@@ -33,7 +33,7 @@ struct JournalHistory: View {
             Color("bgColor").ignoresSafeArea()
 
             VStack(spacing: 16) {
-                customHeader
+                header
 
                 ScrollView {
                     VStack(spacing: 14) {
@@ -88,39 +88,12 @@ struct JournalHistory: View {
         }
     }
 
-    private var customHeader: some View {
+    private var header: some View {
         CustomHeaderView(
             title: "Journal",
             iconName: "journal_icon",
             onBack: { dismiss() }
         )
         .frame(height: 170)
-    }
-
-    private var header: some View {
-        HStack {
-            Button { dismiss() } label: {
-                Image(systemName: "chevron.left")
-                    .foregroundColor(.gray)
-                    .padding(14)
-                    .background(Circle().fill(Color.white.opacity(0.55)))
-            }
-
-            Spacer()
-
-            Text("Journal")
-                .font(.system(size: 26, weight: .bold))
-
-            Spacer()
-
-            Image("journal_icon")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 34, height: 34)
-                .padding(10)
-                .background(Circle().fill(Color.white.opacity(0.55)))
-        }
-        .padding(.horizontal, 18)
-        .padding(.top, 10)
     }
 }

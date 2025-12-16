@@ -22,23 +22,23 @@ struct JournalRowView: View {
                         .frame(width: 26, height: 26)
                 }
                 .frame(width: 40) // Fixed width to prevent layout jumping
-                .padding(.leading, 12)
+                .padding(.horizontal, 15)
 
                 VStack(alignment: .leading, spacing: 6) {
                     Text(entry.title)
                         .font(.system(size: 20, weight: .semibold))
-                        .foregroundColor(.black)
+                        .foregroundColor(Color(.label))
 
                     Text(DateFormatters.journalRow.string(from: entry.date))
                         .font(.system(size: 14))
-                        .foregroundColor(.gray)
+                        .foregroundColor(.secondary)
                 }
                 .padding(.vertical, 16)
 
                 Spacer()
             }
             .frame(maxWidth: .infinity)
-            .background(Color.white)
+            .background(Color(.systemBackground).opacity(0.3))
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .overlay(
                 RoundedRectangle(cornerRadius: 20)

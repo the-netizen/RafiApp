@@ -26,6 +26,8 @@ struct JournalNameEntrySheet: View {
                 .font(.system(size: 24, weight: .bold))
 
             TextField("Type something", text: $title)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
                 .padding()
                 .background(RoundedRectangle(cornerRadius: 16).stroke(Color.gray.opacity(0.3), lineWidth: 1))
 
