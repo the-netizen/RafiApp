@@ -28,7 +28,7 @@ struct CustomHeaderView: View {
                         
                         Image(systemName: "chevron.backward")
                             .font(.system(size: 30))
-                            .foregroundColor(.white)
+                            .foregroundColor(Color(.label))
                             .clipShape(Circle())
                             .padding(10)
 //                    }
