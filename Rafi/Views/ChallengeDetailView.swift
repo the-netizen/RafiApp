@@ -34,18 +34,18 @@ struct ChallengeDetailView: View {
                         Text(card.title)
                             .font(.system(size: 23, weight: .bold))
                             .foregroundColor(Color(.label))
-                            .padding(.top, 20)
+                            .padding(.top, 30)
                             .multilineTextAlignment(.center)
 //                            .frame(maxWidth: .infinity)
                             .padding(.horizontal, 20)
-                            .padding(.bottom, 10)
-                        
+//                            .padding(.bottom, 10)
+//                        Spacer()
                         Text(card.conditions)
                             .font(.system(size: 20))
                             .foregroundColor(Color(.label).opacity(0.7))
                             .multilineTextAlignment(.leading)
-                            .padding(.horizontal, 30)
-                            .padding(.bottom, 40)
+                            .padding(.horizontal, 20)
+//                            .padding(.bottom, 40)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     
                         Spacer()
@@ -60,7 +60,7 @@ struct ChallengeDetailView: View {
                                 .background(.button)
                                 .cornerRadius(12)
                         }
-                        .padding(.bottom, 20)
+                        .padding(.bottom, 30)
                     }
                     .frame(width: 330)
                 }

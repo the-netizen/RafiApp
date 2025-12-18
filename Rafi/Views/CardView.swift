@@ -114,11 +114,11 @@ struct ChallengeCardView: View {
                 .frame(height: 170)
                 .opacity(0.70)
             
-            VStack(spacing: 16) {
+            VStack {
                 Text(card.title)
                     .font(.system(size: 26, weight: .bold))
                     .foregroundColor(Color(.label))
-                    .padding(.top, 40)
+                    .padding(.top, 30)
                     .padding(.horizontal, 20)
                     .multilineTextAlignment(.center)
                 Spacer()
@@ -127,7 +127,7 @@ struct ChallengeCardView: View {
                     .font(.system(size: 20, weight: .medium))
                     .foregroundColor(Color(.label).opacity(0.7))
                     .multilineTextAlignment(.center)
-                    .padding(.horizontal, 30)
+                    .padding(.horizontal, 10)
 //                    .lineLimit(3)
                 
                 Spacer()
@@ -142,7 +142,7 @@ struct ChallengeCardView: View {
                         .background(.button)
                         .cornerRadius(12)
                 }
-                .padding(.bottom, 40)
+                .padding(.bottom, 30)
             }
             .frame(width: 310, height: 400)
         }
@@ -157,9 +157,9 @@ extension CardViewViewModel {
         let vm = CardViewViewModel(category: .outside)
         vm.cards = [
             ChallengeCard(difficultyImageName: "skull_level1",
-                         titleKey: "outside_1_title", 
-                         descriptionKey: "outside_1_description", 
-                         conditionsKey: "outside_1_conditions"),
+                         titleKey: "outside_4_title",
+                         descriptionKey: "outside_4_description",
+                         conditionsKey: "outside_4_conditions"),
             ChallengeCard(difficultyImageName: "skull_level2",
                          titleKey: "outside_2_title", 
                          descriptionKey: "outside_2_description", 
@@ -177,7 +177,6 @@ struct CardView_Previews: PreviewProvider {
             CardView(viewModel: .previewMock)
                 .environmentObject(MainViewViewModel())
         }
-//        .environment(\.layoutDirection, .rightToLeft)
     }
 }
 

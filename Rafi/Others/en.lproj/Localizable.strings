@@ -89,8 +89,8 @@
 "outside_3_conditions" = "
 - Ask a cashier or staff member a short question like:
 
-                    “What time do you close? 
-                    “Do you have bags?”
+    “What time do you close? 
+    “Do you have bags?”
 
 - Keep your body relaxed.
 
@@ -118,23 +118,3 @@
 
 - Do not switch or shorten your name.";
 
-
-"journal_1_title" = "";
-"journal_1_description" = "";
-"journal_1_conditions" = "";
-
-"journal_2_title" = "";
-"journal_2_description" = "";
-"journal_2_conditions" = "";
-
-"journal_3_title" = "";
-"journal_3_description" = "";
-"journal_3_conditions" = "";
-
-"journal_4_title" = "";
-"journal_4_description" = "";
-"journal_4_conditions" = "";
-
-"journal_5_title" = "";
-"journal_5_description" = "";
-"journal_5_conditions" = "";
