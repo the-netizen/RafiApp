@@ -26,7 +26,7 @@ struct JournalRecordingView: View {
 
                 Text(timeString(recorder.elapsed))
                     .font(.system(size: 34, weight: .semibold, design: .monospaced))
-                    .foregroundColor(Color(.label))
+                    .foregroundColor(Color(.white))
                 Spacer()
                 
                 HStack(spacing: 8) {
@@ -37,6 +37,7 @@ struct JournalRecordingView: View {
                     }
                 }
                 .frame(height: 300) // Fixed height to prevent layout shifts
+                .foregroundColor(.white)
 //                .padding(.horizontal, 18)
 //                .padding(.horizontal, 28)
 
