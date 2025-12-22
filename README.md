@@ -4,9 +4,11 @@ A platform that helps young adults who stutter build speaking confidence by prac
 
 ## Features
 
-- Indoor challenge prompts to practice techniques 
-- Outdoor challenge prompts to practice speaking fluency in real-world situations.
-- Voice-Journaling to 
+- Indoor prompts to practice speaking using research techniques.
+- Outdoor prompts to practice speaking fluency in real-world situations.
+- Voice-Journaling to reocord your daily progress and evaluate your speech using a symbol rating system.
+- A journal history page to look back on your speaking progress. 
+
 
 ### Requirements
 
