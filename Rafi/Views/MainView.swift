@@ -86,11 +86,11 @@ struct MainView: View {
                                     } label: {
                                         HStack(spacing: 6) {
                                             Text(userName)
-                                                .font(.system(size: 18, weight: .medium))
+                                                .font(.system(size: 20, weight: .medium))
                                                 .foregroundColor(.white)
                                             
                                             Image(systemName: "pencil")
-                                                .font(.system(size: 12, weight: .medium))
+                                                .font(.system(size: 16, weight: .medium))
                                                 .foregroundColor(.white.opacity(0.6))
                                         }
                                     }

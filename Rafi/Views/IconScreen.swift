@@ -51,18 +51,19 @@ struct PickIconView: View {
                     }
                 }
                 .padding(.horizontal, 45)
+                .padding(.bottom, 60)
                 
                 Spacer()
                 
-                Button(action: { dismiss() }) {
-                    Text("Enter")
-                        .foregroundColor(.white)
-                        .font(.system(size: 18, weight: .medium))
-                        .frame(width: 150, height: 50)
-                        .background(Color.orange)
-                        .cornerRadius(14)
-                }
-                .padding(.bottom, 80)
+//                Button(action: { dismiss() }) {
+//                    Text("Enter")
+//                        .foregroundColor(.white)
+//                        .font(.system(size: 18, weight: .medium))
+//                        .frame(width: 150, height: 50)
+//                        .background(Color.orange)
+//                        .cornerRadius(14)
+//                }
+//                .padding(.bottom, 80)
             }
         }
     }
