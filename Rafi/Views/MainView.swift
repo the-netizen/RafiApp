@@ -8,12 +8,23 @@ struct MainView: View {
     @AppStorage("selectedIcon") private var selectedIcon: String = "iconGirl"
     @AppStorage("hasPickedIcon") private var hasPickedIcon: Bool = false
     @State private var showPickIcon = false
+    
+    // NEW: save user name and control editing
+    @AppStorage("userName") private var userName: String = "User"
+    @State private var isEditingName = false
+    @State private var tempUserName = ""
+    @FocusState private var isNameFieldFocused: Bool
 
     var body: some View {
         NavigationStack(path: $viewModel.navigationPath) {
             ZStack {
                 Color("bgColor")
                     .ignoresSafeArea()
+                    .onTapGesture {
+                        if isEditingName {
+                            saveUserName()
+                        }
+                    }
                 
                 VStack(alignment: .center, spacing: 24) {
                     
@@ -46,9 +57,49 @@ struct MainView: View {
                             Text("welcome_title")
                                 .font(.system(size: 28, weight: .bold))
                                 .frame(maxWidth: .infinity, alignment:.leading)
-                                .padding(.trailing, 24)
+                                .padding(.leading, 20)
                                 .foregroundColor(.white)
                             
+                            HStack {
+ 
+                                if isEditingName {
+                                    TextField("Enter name", text: $tempUserName)
+                                        .font(.system(size: 18, weight: .medium))
+                                        .foregroundColor(.white)
+                                        .textFieldStyle(.plain)
+                                        .focused($isNameFieldFocused)
+                                        .autocorrectionDisabled()
+                                        .textInputAutocapitalization(.words)
+                                        .onSubmit {
+                                            saveUserName()
+                                        }
+                                        .background(
+                                            Rectangle()
+                                                .fill(Color.white.opacity(0.2))
+                                                .frame(height: 1)
+                                                .offset(y: 10)
+                                        )
+                                } else {
+                                    
+                                    Button {
+                                        startEditingName()
+                                    } label: {
+                                        HStack(spacing: 6) {
+                                            Text(userName)
+                                                .font(.system(size: 18, weight: .medium))
+                                                .foregroundColor(.white)
+                                            
+                                            Image(systemName: "pencil")
+                                                .font(.system(size: 12, weight: .medium))
+                                                .foregroundColor(.white.opacity(0.6))
+                                        }
+                                    }
+                                }
+                                
+                                Spacer()
+                            }
+                            .padding(.leading, 20)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                         }
                     }
                     .padding(.horizontal, 24)
@@ -108,6 +159,22 @@ struct MainView: View {
                 }
             }
         }
+    }
+    
+    // MARK: - Name Editing Functions
+    private func startEditingName() {
+        tempUserName = userName
+        isEditingName = true
+        isNameFieldFocused = true
+    }
+    
+    private func saveUserName() {
+        let trimmedName = tempUserName.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !trimmedName.isEmpty {
+            userName = trimmedName
+        }
+        isEditingName = false
+        isNameFieldFocused = false
     }
 }
 
